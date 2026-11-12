@@ -6,29 +6,18 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import { AuthMetaBootProvider } from './AuthMetaBoot';
 import { Box } from '@/components';
-import { useIsDarkMode } from '@/hooks/useDarkMode';
+import { RawlfAuthLogo } from '@/components/RawlfBrand/RawlfBrand';
 import authenticationRoutes from '@/routes/authentication';
 
 import '@/style/pages/Authentication/Auth.scss';
 
 export function Authentication() {
-  const isDarkMode = useIsDarkMode();
-
   return (
     <BodyClassName className={'authentication'}>
       <AuthPage>
         <AuthInsider>
           <AuthLogo>
-            <span
-              style={{
-                fontSize: 34,
-                fontWeight: 700,
-                letterSpacing: 1,
-                color: isDarkMode ? 'rgba(255, 255, 255, 0.85)' : '#0052cc',
-              }}
-            >
-              RBooks
-            </span>
+            <RawlfAuthLogo />
           </AuthLogo>
 
           <AuthMetaBootProvider>

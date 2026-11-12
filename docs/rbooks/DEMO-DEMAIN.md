@@ -18,6 +18,8 @@ Tout arrêter (Docker reste en marche) : `powershell -ExecutionPolicy Bypass -Fi
 
 Journaux en cas de problème : `C:\DEV\CODEGOD\RAWLF\_tmp_rbooks\` (`dev-server.log`, `dev-webapp.log`, `capapp.log`).
 
+Thème : charte RAWLF « Gold Systems » appliquée (clair par défaut, sombre au choix ; marque RAWLF · RBooks ; fichier packages\webapp\src\style\rawlf-theme.scss ; captures dans docs\rbooks\captures-theme\).
+
 Organisation : « Entreprise Démo RBooks inc. » (CAD, America/Toronto), **langue : français** (déjà réglée). Les noms du plan comptable ont été traduits en français.
 
 ## 2. Parcours de démo (≈ 15 minutes)

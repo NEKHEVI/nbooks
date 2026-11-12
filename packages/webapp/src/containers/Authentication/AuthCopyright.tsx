@@ -1,5 +1,15 @@
-import { Icon } from '@/components/Icon';
-
 export function AuthCopyright() {
-  return <Icon width={122} height={22} icon={'bigcapital'} />;
+  return (
+    <span
+      style={{
+        fontFamily: "'Sora', sans-serif",
+        fontWeight: 600,
+        fontSize: 11,
+        letterSpacing: '0.3em',
+        opacity: 0.55,
+      }}
+    >
+      RAWLF
+    </span>
+  );
 }

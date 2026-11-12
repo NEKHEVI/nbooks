@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { Icon } from '@/components';
+import { RawlfAuthLogo } from '@/components/RawlfBrand/RawlfBrand';
 
 interface AuthContainerProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ export function AuthContainer({ children }: AuthContainerProps) {
     <AuthPage>
       <AuthInsider>
         <AuthLogo>
-          <Icon icon="bigcapital" height={37} width={214} />
+          <RawlfAuthLogo />
         </AuthLogo>
 
         {children}

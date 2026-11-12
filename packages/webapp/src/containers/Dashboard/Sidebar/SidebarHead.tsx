@@ -284,7 +284,7 @@ function SidebarHeadJSX({
                             <Icon
                               icon={'tick'}
                               iconSize={14}
-                              color="#48aff0"
+                              color="#d9a441"
                               style={{ flexShrink: 0 }}
                             />
                           )}

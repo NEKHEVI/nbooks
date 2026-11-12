@@ -1,0 +1,6 @@
+feat(webapp): theme RAWLF Gold Systems (clair/sombre), marque RAWLF · RBooks, polices Sora/Manrope/JetBrains Mono
+
+Surcharge unique src/style/rawlf-theme.scss importee en dernier, marque dans le menu lateral et la connexion, favicon et titre, captures Playwright dans docs/rbooks/captures-theme.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01QQW6W7PKY7i2gSHEyLthpi

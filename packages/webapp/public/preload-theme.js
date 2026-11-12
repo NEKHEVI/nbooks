@@ -1,8 +1,6 @@
 const theme =
   localStorage.getItem('theme') ||
-  (window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light');
+  'light';
 
 if (theme === 'dark') {
   document.documentElement.classList.add('bp4-dark');

@@ -43,6 +43,9 @@
 @import 'pages/fonts';
 @import "section";
 
+// Theme RAWLF (toujours en dernier)
+@import 'rawlf-theme';
+
 body {
   background-color: var(--color-app-body);
   overflow: hidden;
