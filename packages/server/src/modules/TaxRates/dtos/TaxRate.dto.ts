@@ -2,6 +2,8 @@ import { ToNumber } from '@/common/decorators/Validators';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
+  IsArray,
+  IsInt,
   IsBoolean,
   IsNumber,
   IsNotEmpty,
@@ -84,6 +86,46 @@ export class CommandTaxRateDto {
     example: false,
   })
   active?: boolean;
+
+  /**
+   * RBooks : le taux est un groupe de taxes (ex. TPS + TVQ).
+   */
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({ description: 'Whether the tax is a group of taxes.' })
+  isGroup?: boolean;
+
+  /**
+   * RBooks : identifiants des taux composants du groupe.
+   */
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ description: 'Component tax rate ids of the group.' })
+  componentIds?: number[];
+
+  /**
+   * RBooks : compte du grand livre des taxes perçues (ventes).
+   */
+  @IsInt()
+  @IsOptional()
+  @ApiProperty({ description: 'Sales tax account id.' })
+  salesAccountId?: number;
+
+  /**
+   * RBooks : compte du grand livre des taxes payées (achats).
+   */
+  @IsInt()
+  @IsOptional()
+  @ApiProperty({ description: 'Purchase tax account id.' })
+  purchaseAccountId?: number;
+
+  /**
+   * RBooks : numéro d'inscription (TPS ou TVQ).
+   */
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ description: 'Tax registration number.' })
+  registrationNo?: string;
 }
 
 export class CreateTaxRateDto extends CommandTaxRateDto {}

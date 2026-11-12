@@ -1,3 +1,4 @@
+import { prepareTaxRateGroupDto } from '@/modules/RBooksQuebecTax/prepareTaxRateGroupDto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import {
@@ -47,11 +48,14 @@ export class CreateTaxRate {
         trx,
       } as ITaxRateCreatingPayload);
 
+      const taxRateData = await prepareTaxRateGroupDto(
+        this.taxRateModel,
+        createTaxRateDTO,
+        trx,
+      );
       const taxRate = await this.taxRateModel()
         .query(trx)
-        .insertAndFetch({
-          ...createTaxRateDTO,
-        });
+        .insertAndFetch(taxRateData);
 
       // Triggers `onTaxRateCreated` event.
       await this.eventEmitter.emitAsync(events.taxRates.onCreated, {

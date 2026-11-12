@@ -61,6 +61,10 @@ export class SaleInvoiceTaxEntryTransformer extends Transformer {
    * @param taxEntry
    */
   protected taxRateAmount = (taxEntry) => {
+    // RBooks : montant reel enregistre (somme des lignes) quand il existe.
+    if (taxEntry.amount !== null && taxEntry.amount !== undefined) {
+      return Number(taxEntry.amount);
+    }
     const taxRate = this.taxRate(taxEntry);
 
     return this.options.isInclusiveTax

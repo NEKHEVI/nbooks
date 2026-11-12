@@ -1,3 +1,4 @@
+import { prepareTaxRateGroupDto } from '@/modules/RBooksQuebecTax/prepareTaxRateGroupDto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import { omit } from 'lodash';
@@ -60,6 +61,11 @@ export class EditTaxRateService {
     editTaxRateDTO: EditTaxRateDto,
     trx?: Knex.Transaction,
   ) {
+    editTaxRateDTO = await prepareTaxRateGroupDto(
+      this.taxRateModel,
+      editTaxRateDTO,
+      trx,
+    );
     const isTaxDTOChanged = this.isTaxRateDTOChanged(
       oldTaxRate,
       editTaxRateDTO,

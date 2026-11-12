@@ -9,6 +9,7 @@ export class TaxRateTransaction extends BaseModel {
   public referenceType: string;
   public referenceId: string;
   public rate: number;
+  public amount?: number;
   public taxAccountId?: number;
 
   /**

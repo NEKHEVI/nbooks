@@ -41,7 +41,8 @@ export const transformInvoiceToPdfTemplate = (
       total: entry.totalFormatted,
     })),
     taxes: invoice.taxes.map((tax) => ({
-      label: tax.name,
+      // RBooks : une ligne par taxe avec son taux (ex. TPS (5%), TVQ (9.975%)).
+      label: tax.taxRate ? `${tax.name} (${Number(tax.taxRate)}%)` : tax.name,
       amount: tax.taxRateAmountFormatted,
     })),
     discount: invoice.discountAmountFormatted,

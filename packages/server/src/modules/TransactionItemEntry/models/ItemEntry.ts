@@ -6,6 +6,10 @@ import {
   getInclusiveTaxAmount,
 } from '@/modules/TaxRates/utils';
 import { Model } from 'objection';
+import {
+  computeEntryTaxComponents,
+  sumTaxComponentAmounts,
+} from '@/modules/RBooksQuebecTax/QuebecTaxCalculator';
 
 export class ItemEntry extends BaseModel {
   public referenceType: string;
@@ -33,6 +37,9 @@ export class ItemEntry extends BaseModel {
   public adjustment: number;
 
   public taxRateId: number;
+
+  /** RBooks : composantes de taxe (JSON), pour les groupes TPS + TVQ. */
+  public taxComponents: string;
 
   public warehouseId: number;
 
@@ -155,6 +162,11 @@ export class ItemEntry extends BaseModel {
    * @returns {number}
    */
   get taxAmount() {
+    // RBooks : si la ligne porte plusieurs taxes, somme des taxes arrondies.
+    if (this.taxComponents) {
+      const amounts = computeEntryTaxComponents(this);
+      if (amounts.length) return sumTaxComponentAmounts(amounts);
+    }
     return this.isInclusiveTax
       ? getInclusiveTaxAmount(this.amount, this.taxRate)
       : getExlusiveTaxAmount(this.amount, this.taxRate);

@@ -6,6 +6,16 @@ import { TenantModelProxy } from '../System/models/TenantBaseModel';
 import { FeaturesManager } from '../Features/FeaturesManager';
 import { Features } from '@/common/types/Features';
 
+const parseComponentIds = (raw: any): number[] => {
+  if (!raw) return [];
+  try {
+    const list = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    return Array.isArray(list) ? list.map(Number) : [];
+  } catch {
+    return [];
+  }
+};
+
 @Injectable()
 export class ItemEntriesTaxTransactions {
   constructor(
@@ -79,9 +89,38 @@ export class ItemEntriesTaxTransactions {
 
     const taxRatesMap = keyBy(foundTaxes, 'id');
 
+    // RBooks : charge les composantes des groupes de taxes (ex. TPS + TVQ).
+    const groupComponentIds = foundTaxes
+      .filter((t: any) => t.isGroup)
+      .flatMap((t: any) => parseComponentIds(t.componentIds));
+    const componentTaxes = groupComponentIds.length
+      ? await this.taxRateModel().query().whereIn('id', groupComponentIds)
+      : [];
+    const componentsMap = keyBy(componentTaxes, 'id');
+
     return entries.map((entry) => {
       if (entry.taxRateId) {
-        entry.taxRate = taxRatesMap[entry.taxRateId]?.rate;
+        const tax: any = taxRatesMap[entry.taxRateId];
+
+        if (tax?.isGroup) {
+          const components = parseComponentIds(tax.componentIds)
+            .map((id) => componentsMap[id] as any)
+            .filter(Boolean)
+            .map((c) => ({
+              taxRateId: c.id,
+              code: c.code,
+              name: c.name,
+              rate: Number(c.rate),
+              salesAccountId: c.salesAccountId ?? null,
+              purchaseAccountId: c.purchaseAccountId ?? null,
+              registrationNo: c.registrationNo ?? null,
+            }));
+          entry.taxRate = components.reduce((s, c) => s + c.rate, 0);
+          entry.taxComponents = JSON.stringify(components);
+        } else {
+          entry.taxRate = tax?.rate;
+          entry.taxComponents = null;
+        }
       }
       return entry;
     });

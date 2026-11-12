@@ -6,6 +6,7 @@ import { ItemEntry } from '@/modules/TransactionItemEntry/models/ItemEntry';
 import { Ledger } from '@/modules/Ledger/Ledger';
 import { SaleInvoice } from '../models/SaleInvoice';
 import { AccountingBasis } from '@/common/types/AccountingBasis';
+import { computeEntryTaxComponents } from '@/modules/RBooksQuebecTax/QuebecTaxCalculator';
 
 export class InvoiceAccrualGL {
   private saleInvoice: SaleInvoice;
@@ -148,6 +149,31 @@ export class InvoiceAccrualGL {
   }
 
   /**
+   * RBooks : une ecriture par taxe (TPS, TVQ) et par ligne, chacune dans son
+   * compte. Sans composantes, comportement Bigcapital inchange.
+   */
+  private getInvoiceTaxEntriesOfEntry(
+    entry: ItemEntry,
+    index: number,
+  ): ILedgerEntry[] {
+    const components = computeEntryTaxComponents(entry);
+    if (!components.length) return [this.getInvoiceTaxEntry(entry, index)];
+
+    const commonEntry = this.invoiceGLCommonEntry;
+    return components
+      .filter(({ amount }) => amount !== 0)
+      .map(({ component, amount }, i) => ({
+        ...commonEntry,
+        credit: amount * this.saleInvoice.exchangeRate,
+        accountId: component.salesAccountId || this.taxPayableAccountId,
+        index: index * 10 + i + 1,
+        indexGroup: 30,
+        accountNormal: AccountNormal.CREDIT,
+        taxRateId: component.taxRateId,
+        taxRate: component.rate,
+      }));
+  }
+  /**
    * Retrieves the invoice discount GL entry.
    * @returns {ILedgerEntry}
    */
@@ -191,7 +217,9 @@ export class InvoiceAccrualGL {
     );
     const taxEntries = this.saleInvoice.entries
       .filter((entry) => entry.taxAmount > 0)
-      .map((entry, index) => this.getInvoiceTaxEntry(entry, index));
+      .flatMap((entry, index) =>
+        this.getInvoiceTaxEntriesOfEntry(entry, index),
+      );
 
     return [
       this.invoiceReceivableEntry,

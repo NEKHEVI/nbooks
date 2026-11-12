@@ -1,3 +1,4 @@
+import { computeEntryTaxComponents } from '@/modules/RBooksQuebecTax/QuebecTaxCalculator';
 import * as moment from 'moment';
 import { ILedgerEntry } from '@/modules/Ledger/types/Ledger.types';
 import { ItemEntry } from '@/modules/TransactionItemEntry/models/ItemEntry';
@@ -168,13 +169,38 @@ export class BillGL {
   }
 
   /**
+   * RBooks : une ecriture par taxe (TPS a recevoir / CTI, TVQ a recevoir / RTI)
+   * et par ligne. Sans composantes, comportement Bigcapital inchange.
+   */
+  private getBillTaxEntriesOfEntry(
+    entry: ItemEntry,
+    index: number,
+  ): ILedgerEntry[] {
+    const components = computeEntryTaxComponents(entry);
+    if (!components.length) return [this.getBillTaxEntry(entry, index)];
+
+    const commonJournalMeta = this.billCommonEntry;
+    return components
+      .filter(({ amount }) => amount !== 0)
+      .map(({ component, amount }, i) => ({
+        ...commonJournalMeta,
+        debit: amount * (this.bill.exchangeRate || 1),
+        index: index * 10 + i + 1,
+        indexGroup: 30,
+        accountId: component.purchaseAccountId || this.taxPayableAccountId,
+        accountNormal: AccountNormal.DEBIT,
+        taxRateId: component.taxRateId,
+        taxRate: component.rate,
+      }));
+  }
+  /**
    * Retrieves the bill tax GL entries.
    * @returns {ILedgerEntry[]}
    */
   private getBillTaxEntries = (): ILedgerEntry[] => {
     return this.bill.entries
       .filter((entry) => entry.taxAmount > 0)
-      .map((entry, index) => this.getBillTaxEntry(entry, index));
+      .flatMap((entry, index) => this.getBillTaxEntriesOfEntry(entry, index));
   };
 
   /**

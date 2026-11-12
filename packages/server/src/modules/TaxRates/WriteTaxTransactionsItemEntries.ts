@@ -8,6 +8,8 @@ import { ItemEntry } from '../TransactionItemEntry/models/ItemEntry';
 import { TaxRateTransaction } from './models/TaxRateTransaction.model';
 import { FeaturesManager } from '../Features/FeaturesManager';
 import { Features } from '@/common/types/Features';
+import { computeEntryTaxComponents } from '../RBooksQuebecTax/QuebecTaxCalculator';
+import { getExlusiveTaxAmount, getInclusiveTaxAmount } from './utils';
 
 @Injectable()
 export class WriteTaxTransactionsItemEntries {
@@ -37,25 +39,61 @@ export class WriteTaxTransactionsItemEntries {
     );
     if (!isSalesTaxEnabled) return;
 
-    const aggregatedEntries = this.aggregateItemEntriesByTaxCode(itemEntries);
-    const entriesTaxRateIds = aggregatedEntries.map((entry) => entry.taxRateId);
+    const entriesTaxRateIds = itemEntries
+      .filter((entry) => entry.taxRateId)
+      .map((entry) => entry.taxRateId);
 
     const taxRates = await this.taxRateModel()
       .query(trx)
       .whereIn('id', entriesTaxRateIds);
     const taxRatesById = keyBy(taxRates, 'id');
 
-    const taxTransactions = aggregatedEntries.map((entry) => ({
-      taxRateId: entry.taxRateId,
-      referenceType: entry.referenceType,
-      referenceId: entry.referenceId,
-      rate: entry.taxRate || (taxRatesById[entry.taxRateId]?.rate as number),
-    }));
+    // RBooks : une ligne `tax_rate_transactions` par taxe (les groupes sont
+    // decomposes en composantes), avec le montant reel = somme des lignes.
+    const rows = new Map<number, any>();
+    const addRow = (
+      taxRateId: number,
+      entry: any,
+      rate: number,
+      amount: number,
+    ) => {
+      const found = rows.get(taxRateId);
+      if (found) {
+        found.amount += amount;
+        return;
+      }
+      rows.set(taxRateId, {
+        taxRateId,
+        referenceType: entry.referenceType,
+        referenceId: entry.referenceId,
+        rate,
+        amount,
+      });
+    };
+    itemEntries
+      .filter((entry) => entry.taxRateId)
+      .forEach((entry: any) => {
+        const components = computeEntryTaxComponents(entry);
+        if (components.length) {
+          components.forEach(({ component, amount }) =>
+            addRow(component.taxRateId, entry, component.rate, amount),
+          );
+          return;
+        }
+        const rate =
+          entry.taxRate || (taxRatesById[entry.taxRateId]?.rate as number);
+        const base = Number(entry.quantity) * Number(entry.rate);
+        const amount = entry.isInclusiveTax
+          ? getInclusiveTaxAmount(base, Number(rate))
+          : getExlusiveTaxAmount(base, Number(rate));
+        addRow(entry.taxRateId, entry, rate, amount);
+      });
+
+    const taxTransactions = Array.from(rows.values());
     await this.taxRateTransactionModel()
       .query(trx)
       .upsertGraph(taxTransactions as ModelObject<TaxRateTransaction>[]);
   }
-
   /**
    * Rewrites the tax rate transactions from the given item entries.
    * @param {number} tenantId
