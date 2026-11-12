@@ -17858,6 +17858,11 @@ export interface components {
              * @example true
              */
             isBigcapitalCloud: boolean;
+            /**
+             * @description Public URL of the source code (empty when not configured)
+             * @example https://example.com/rbooks-source
+             */
+            rbooksSourceUrl: string;
         };
         RolePermissionResponseDto: {
             /**

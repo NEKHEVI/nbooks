@@ -15,6 +15,7 @@ interface IDashboardBootMeta {
   abilities: IRoleAbility[];
   features: IFeatureAllItem[];
   isBigcapitalCloud: boolean;
+  rbooksSourceUrl: string;
 }
 
 export class DashboardService {
@@ -41,6 +42,7 @@ export class DashboardService {
       abilities,
       features,
       isBigcapitalCloud: !!this.configService.get('cloud.hostedOnCloud'),
+      rbooksSourceUrl: this.configService.get<string>('rbooks.sourceUrl') || '',
     };
   };
 

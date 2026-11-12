@@ -49032,12 +49032,18 @@
             "type": "boolean",
             "description": "Whether the app is running on Bigcapital Cloud",
             "example": true
+          },
+          "rbooksSourceUrl": {
+            "type": "string",
+            "description": "Public URL of the source code (empty when not configured)",
+            "example": "https://example.com/rbooks-source"
           }
         },
         "required": [
           "abilities",
           "features",
-          "isBigcapitalCloud"
+          "isBigcapitalCloud",
+          "rbooksSourceUrl"
         ]
       },
       "RolePermissionResponseDto": {

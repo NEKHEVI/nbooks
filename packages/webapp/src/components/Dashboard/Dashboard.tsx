@@ -7,6 +7,7 @@ import GlobalHotkeys from './GlobalHotkeys';
 import DashboardContent from '@/components/Dashboard/DashboardContent';
 import DashboardDocumentTitle from '@/components/Dashboard/DashboardDocumentTitle';
 import DashboardSplitPane from '@/components/Dashboard/DashboardSplitePane';
+import DashboardFooter from '@/components/Dashboard/DashboardFooter';
 import DialogsContainer from '@/components/DialogsContainer';
 import DrawersContainer from '@/components/DrawersContainer';
 import PreferencesPage from '@/components/Preferences/PreferencesPage';
@@ -59,6 +60,7 @@ export default function Dashboard() {
         <Route path="/" component={DashboardAnyPage} />
       </Switch>
 
+      <DashboardFooter />
       <DashboardSockets />
       <DashboardUniversalSearch />
       <GlobalHotkeys />

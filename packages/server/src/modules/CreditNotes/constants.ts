@@ -92,7 +92,7 @@ export const defaultCreditNoteBrandingAttributes = {
   companyLogoUri: '',
 
   // # Company name
-  companyName: 'Bigcapital Technology, Inc.',
+  companyName: 'RBooks',
 
   // # Customer address
   showCustomerAddress: true,

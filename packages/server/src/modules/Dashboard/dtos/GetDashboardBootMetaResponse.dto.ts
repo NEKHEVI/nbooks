@@ -61,4 +61,10 @@ export class GetDashboardBootMetaResponseDto {
     example: true,
   })
   isBigcapitalCloud: boolean;
+
+  @ApiProperty({
+    description: 'Public URL of the source code (empty when not configured)',
+    example: 'https://example.com/rbooks-source',
+  })
+  rbooksSourceUrl: string;
 }

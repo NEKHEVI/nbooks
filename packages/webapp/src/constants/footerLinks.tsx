@@ -1,24 +1,8 @@
-import intl from 'react-intl-universal';
-
-export const getFooterLinks = (): Array<{ title: string; link: string }> => [
-  {
-    title: intl.get('blog'),
-    link: 'https://docs.bigcapital.ly/blog',
-  },
-  {
-    title: intl.get('community'),
-    link: 'https://discord.com/invite/c8nPBJafeb',
-  },
-  {
-    title: intl.get('support'),
-    link: 'https://discord.com/invite/c8nPBJafeb',
-  },
-  {
-    title: intl.get('docs'),
-    link: 'https://docs.bigcapital.ly',
-  },
-  {
-    title: 'Bigcapital',
-    link: 'http://bigcapital.ly',
-  },
-];
+/**
+ * RBooks footer links. The only link is the AGPL-3.0 "Code source" link,
+ * shown when the server is configured with RBOOKS_SOURCE_URL.
+ */
+export const getFooterLinks = (
+  sourceUrl?: string,
+): Array<{ title: string; link: string }> =>
+  sourceUrl ? [{ title: 'Code source', link: sourceUrl }] : [];
