@@ -1,0 +1,12 @@
+{
+  "previoud_period_date": "{date} (PP)",
+  "previous_period_percentage": "% de variation (PP)",
+  "previous_period_change": "Variation (PP)",
+  "previous_year_date": "{date} (AP)",
+  "previous_year_change": "Variation (AP)",
+  "previous_year_percentage": "% de variation (AP)",
+  "from_date": "Du",
+  "to_date": "Au",
+  "as_date": "En date du",
+  "total_row": "Total {value}"
+}

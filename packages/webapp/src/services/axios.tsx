@@ -1,5 +1,6 @@
 // @ts-nocheck
 import axios from 'axios';
+import jsCookie from 'js-cookie';
 import { store } from '@/store/create-store';
 const http = axios.create();
 
@@ -7,7 +8,8 @@ http.interceptors.request.use(
   (request) => {
     const state = store.getState();
     const { token, organization } = state.authentication;
-    const locale = 'en';
+    // RBooks: send the UI language (cookie synced with the organization language).
+    const locale = jsCookie.get('locale') || 'en';
 
     if (token) {
       request.headers.common['x-access-token'] = token;
@@ -18,7 +20,6 @@ http.interceptors.request.use(
     if (locale) {
       request.headers.common['Accept-Language'] = locale;
     }
-    request.headers.common['Accept-Language'] = 'ar';
 
     return request;
   },

@@ -1,0 +1,12 @@
+{
+  "field.date": "Date",
+  "field.journal_number": "N° du journal",
+  "field.reference": "N° de référence",
+  "field.journal_type": "Type de journal",
+  "field.amount": "Montant",
+  "field.description": "Description",
+  "field.currency": "Devise",
+  "field.exchange_rate": "Taux de change",
+  "field.status": "Statut",
+  "field.created_at": "Créé le"
+}

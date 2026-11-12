@@ -1,0 +1,19 @@
+{
+  "field.first_name": "Prénom",
+  "field.last_name": "Nom de famille",
+  "field.display_name": "Nom d'affichage",
+  "field.email": "Courriel",
+  "field.work_phone": "Téléphone au travail",
+  "field.personal_phone": "Téléphone personnel",
+  "field.company_name": "Nom de l'entreprise",
+  "field.website": "Site Web",
+  "field.opening_balance": "Solde d'ouverture",
+  "field.opening_balance_at": "Solde d'ouverture au",
+  "field.currency": "Devise",
+  "field.created_at": "Créé le",
+  "field.balance": "Solde",
+  "field.note": "Note",
+  "field.status": "Statut",
+  "field.status.overdue": "En retard",
+  "field.status.unpaid": "Impayé"
+}

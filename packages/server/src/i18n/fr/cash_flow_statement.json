@@ -1,0 +1,18 @@
+{
+  "operating_activities": "ACTIVITÉS D'EXPLOITATION",
+  "net_income": "Revenu net",
+  "operating_accounts": "Ajustements du revenu net selon les activités d'exploitation.",
+  "net_cash_operating": "Flux de trésorerie nets provenant des activités d'exploitation",
+  "investment_activities": "ACTIVITÉS D'INVESTISSEMENT",
+  "net_cash_investing": "Flux de trésorerie nets provenant des activités d'investissement",
+  "financial_activities": "ACTIVITÉS DE FINANCEMENT",
+  "net_cash_financing": "Flux de trésorerie nets provenant des activités de financement",
+  "cash_beginning_period": "Trésorerie au début de la période",
+  "net_cash_increase": "AUGMENTATION NETTE DE LA TRÉSORERIE POUR LA PÉRIODE",
+  "cash_end_period": "TRÉSORERIE À LA FIN DE LA PÉRIODE",
+  "account_name": "Nom du compte",
+  "total": "Total",
+  "sheet_name": "État des flux de trésorerie",
+  "from_date": "Du",
+  "to_date": "Au"
+}

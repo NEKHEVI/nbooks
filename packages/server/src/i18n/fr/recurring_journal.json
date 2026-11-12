@@ -1,0 +1,21 @@
+{
+  "field.profile_name": "Nom du profil",
+  "field.reference": "Référence",
+  "field.frequency": "Fréquence",
+  "field.frequency.day": "Jour",
+  "field.frequency.week": "Semaine",
+  "field.frequency.month": "Mois",
+  "field.frequency.year": "An",
+  "field.repeat_interval": "Répéter tous les",
+  "field.start_date": "Date de début",
+  "field.end_date": "Date de fin",
+  "field.max_occurrences": "Nombre maximal d'occurrences",
+  "field.next_journal_date": "Prochain journal",
+  "field.last_journal_date": "Dernier journal",
+  "field.status": "Statut",
+  "field.status.active": "Actif",
+  "field.status.paused": "En pause",
+  "field.status.completed": "Terminé",
+  "field.created_at": "Créé le",
+  "field.amount": "Montant"
+}

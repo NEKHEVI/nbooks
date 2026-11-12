@@ -11,6 +11,7 @@ import moment from 'moment';
 import { createSelectorCreator, defaultMemoize } from 'reselect';
 import { deepMapKeys } from './map-key-deep';
 import type { IResourceField } from '@/components/AdvancedFilter/interfaces';
+import { getLocaleMoneyOptions } from './locale-format';
 export * from './deep';
 export * from './flatten-infinity-pages';
 
@@ -219,6 +220,7 @@ export function formattedAmount(cents, currencyCode = '', props = {}) {
       neg: '%s-%v',
       zero: parsedProps.noZero ? '' : '%s%v',
     },
+    ...getLocaleMoneyOptions(!!parsedCurrency.symbol, parsedProps.noZero),
   };
 
   return accounting.formatMoney(cents, formatOptions);
@@ -237,6 +239,7 @@ export function formattedNumber(amount, props) {
       neg: '%s-%v',
       zero: parsedProps.noZero ? '' : '%s%v',
     },
+    ...getLocaleMoneyOptions(false, parsedProps.noZero),
     ...props,
   };
   return accounting.formatMoney(amount, formatOptions);

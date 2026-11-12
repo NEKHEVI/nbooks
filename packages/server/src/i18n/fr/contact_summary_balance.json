@@ -1,0 +1,7 @@
+{
+  "customer_sheet_name": "Sommaire des soldes clients",
+  "vendor_sheet_name": "Sommaire des soldes fournisseurs",
+  "account_name": "Nom du compte",
+  "total": "Total",
+  "percentage_column": "% de la colonne"
+}

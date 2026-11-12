@@ -1,0 +1,17 @@
+{
+  "sheet_name": "État des résultats",
+  "income": "Revenus",
+  "cost_of_sales": "Coût des ventes",
+  "gross_profit": "MARGE BRUTE",
+  "expenses": "Dépenses",
+  "net_operating_income": "REVENU D'EXPLOITATION NET",
+  "other_income": "Autres revenus",
+  "other_expenses": "Autres dépenses",
+  "net_income": "REVENU NET",
+  "account_name": "Nom du compte",
+  "total": "Total",
+  "percentage_of_income": "% des revenus",
+  "percentage_of_expenses": "% des dépenses",
+  "percentage_of_column": "% de la colonne",
+  "percentage_of_row": "% de la ligne"
+}

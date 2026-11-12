@@ -1,0 +1,9 @@
+{
+  "sheet_name": "Sommaire des taxes de vente à payer",
+  "total": "Total",
+  "tax_name": "Nom de la taxe",
+  "tax_percentage": "Pourcentage de la taxe",
+  "taxable_amount": "Montant imposable",
+  "collected_tax": "Taxe perçue",
+  "tax_amount": "Montant de la taxe"
+}

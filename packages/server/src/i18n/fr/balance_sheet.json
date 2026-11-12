@@ -1,0 +1,22 @@
+{
+  "sheet_name": "Bilan",
+  "assets": "Actifs",
+  "current_asset": "Actif à court terme",
+  "cash_and_cash_equivalents": "Trésorerie et équivalents de trésorerie",
+  "accounts_receivable": "Comptes clients",
+  "inventory": "Inventaire",
+  "other_current_assets": "Autres actifs à court terme",
+  "fixed_asset": "Immobilisations",
+  "non_current_assets": "Actifs à long terme",
+  "liabilities_and_equity": "Passif et capitaux propres",
+  "liabilities": "Passifs",
+  "current_liabilities": "Passif à court terme",
+  "long_term_liabilities": "Dettes à long terme",
+  "non_current_liabilities": "Passif à long terme",
+  "equity": "Capitaux propres",
+  "net_income": "Revenu net",
+  "account_name": "Nom du compte",
+  "total": "Total",
+  "percentage_of_column": "% de la colonne",
+  "percentage_of_row": "% de la ligne"
+}

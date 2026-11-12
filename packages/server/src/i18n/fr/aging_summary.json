@@ -1,0 +1,9 @@
+{
+  "ar_sheet_name": "Sommaire de l'âge des comptes clients",
+  "ap_sheet_name": "Sommaire de l'âge des comptes fournisseurs",
+  "customer_name": "Nom du client",
+  "vendor_name": "Nom du fournisseur",
+  "current": "Courant",
+  "total": "Total",
+  "and_over": "Et plus"
+}

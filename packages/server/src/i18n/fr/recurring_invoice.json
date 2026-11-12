@@ -1,0 +1,22 @@
+{
+  "field.profile_name": "Nom du profil",
+  "field.customer": "Client",
+  "field.reference_no": "N° de référence",
+  "field.frequency": "Fréquence",
+  "field.frequency.day": "Jour",
+  "field.frequency.week": "Semaine",
+  "field.frequency.month": "Mois",
+  "field.frequency.year": "An",
+  "field.repeat_interval": "Répéter tous les",
+  "field.start_date": "Date de la première facture",
+  "field.end_date": "Date de fin",
+  "field.max_occurrences": "Nombre maximal d'occurrences",
+  "field.next_invoice_date": "Prochaine facture",
+  "field.last_invoice_date": "Dernière facture",
+  "field.status": "Statut",
+  "field.status.active": "Active",
+  "field.status.paused": "En pause",
+  "field.status.completed": "Terminée",
+  "field.created_at": "Créée le",
+  "field.amount": "Montant"
+}

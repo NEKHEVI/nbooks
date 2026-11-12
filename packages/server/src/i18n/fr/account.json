@@ -1,0 +1,21 @@
+{
+  "field.name": "Nom du compte",
+  "field.description": "Description",
+  "field.slug": "Identifiant du compte",
+  "field.code": "Code du compte",
+  "field.code_hint": "Numéro unique pour identifier le compte.",
+  "field.root_type": "Type racine",
+  "field.normal": "Solde normal du compte",
+  "field.normal.credit": "Crédit",
+  "field.normal.debit": "Débit",
+  "field.type": "Type",
+  "field.active": "Actif",
+  "field.currency": "Devise",
+  "field.balance": "Solde",
+  "field.bank_balance": "Solde bancaire",
+  "field.parent_account": "Compte parent",
+  "field.created_at": "Créé le",
+  "field.account_hint": "Correspond au nom ou au code du compte.",
+  "accounts_receivable.currency": "Comptes clients ({currency})",
+  "accounts_payable.currency": "Comptes fournisseurs ({currency})"
+}
