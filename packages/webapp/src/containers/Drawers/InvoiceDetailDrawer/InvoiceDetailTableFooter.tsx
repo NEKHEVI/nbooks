@@ -48,7 +48,7 @@ export function InvoiceDetailTableFooter() {
         )}
         {invoice.adjustmentFormatted && (
           <TotalLine
-            title="Adjustment"
+            title={<T id={'adjustment'} />}
             value={invoice.adjustmentFormatted}
             textStyle={TotalLineTextStyle.Regular}
           />

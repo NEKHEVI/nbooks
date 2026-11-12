@@ -447,7 +447,7 @@ export const SidebarMenu: SidebarMenuItem[] = [
                 type: ISidebarMenuItemType.Link,
               },
               {
-                text: 'Tax Rates',
+                text: <T id={'rb_tax.title'} />,
                 href: '/tax-rates',
                 type: ISidebarMenuItemType.Link,
                 feature: Features.SalesTax,

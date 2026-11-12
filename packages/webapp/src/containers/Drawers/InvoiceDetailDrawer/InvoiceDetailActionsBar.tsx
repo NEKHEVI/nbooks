@@ -153,7 +153,7 @@ function InvoiceDetailActionsBarInner({
         </Can>
         <Can I={SaleInvoiceAction.View} a={AbilitySubject.Invoice}>
           <Button
-            text={'Send Mail'}
+            text={<T id={'send_to_email'} />}
             icon={<Icon icon="envelope" />}
             onClick={handleMailInvoice}
             className={Classes.MINIMAL}

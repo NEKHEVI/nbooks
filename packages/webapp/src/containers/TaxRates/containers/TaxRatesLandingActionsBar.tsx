@@ -42,7 +42,7 @@ function TaxRatesActionsBar({
           <Button
             className={Classes.MINIMAL}
             icon={<Icon icon="plus" />}
-            text={'New Tax Rate'}
+            text={<T id={'rb_tax.new'} />}
             onClick={onClickNewItem}
           />
         </Can>

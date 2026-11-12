@@ -1291,7 +1291,7 @@ export const getDashboardRoutes = () => [
         default: m.TaxRatesImport,
       })),
     ),
-    pageTitle: 'Tax Rates',
+    pageTitle: intl.get('rb_tax.title'),
     feature: Features.SalesTax,
   },
   {
@@ -1301,7 +1301,7 @@ export const getDashboardRoutes = () => [
         default: m.TaxRatesLanding,
       })),
     ),
-    pageTitle: 'Tax Rates',
+    pageTitle: intl.get('rb_tax.title'),
     feature: Features.SalesTax,
   },
   // Bank Rules

@@ -53,10 +53,17 @@ async function loadYupLocales(currentLocale) {
 /**
  * Dynamically loads the moment.js locale bundle for the given locale.
  */
+// Imports explicites : Vite ne peut pas analyser un import dynamique de module nu.
+const MOMENT_LOCALE_LOADERS = {
+  'fr-ca': () => import('moment/locale/fr-ca'),
+  'ar-ly': () => import('moment/locale/ar-ly'),
+};
+
 async function loadMomentLocale(currentLocale) {
   const momentLocale = transformMomentLocale(currentLocale);
   if (momentLocale === 'en') return;
-  await import(`moment/locale/${momentLocale}`);
+  const loader = MOMENT_LOCALE_LOADERS[momentLocale];
+  if (loader) await loader();
 }
 
 /**

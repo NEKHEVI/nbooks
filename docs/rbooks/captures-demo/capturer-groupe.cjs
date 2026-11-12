@@ -1,0 +1,38 @@
+// Test de bout en bout : creation d'un groupe de taxes depuis l'ecran Taux de taxe. Usage : node capturer-groupe.cjs
+const { chromium } = require('@playwright/test');
+const fs = require('fs'); const path = require('path');
+const OUT = __dirname;
+const lines = fs.readFileSync('C:\\DEV\\CODEGOD\\RAWLF\\secrets\\rbooks-demo.txt', 'utf8').split(/\r?\n/);
+const val = (k) => (lines.find((l) => l.startsWith(k)) || '').replace(/^[^:]*:\s*/, '').trim();
+const BASE = process.env.RBOOKS_WEB || 'http://localhost:4000';
+(async () => {
+  const pw = path.join(process.env.LOCALAPPDATA, 'ms-playwright');
+  const dirs = fs.readdirSync(pw).filter((d) => d.startsWith('chromium-')).sort();
+  const browser = await chromium.launch({ headless: true, executablePath: path.join(pw, dirs[dirs.length - 1], 'chrome-win64', 'chrome.exe') });
+  const ctx = await browser.newContext({ viewport: { width: 1500, height: 900 }, locale: 'fr-CA' });
+  await ctx.addCookies([{ name: 'locale', value: 'fr', url: BASE }]);
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => console.log('pageerror:', e.message.slice(0, 200)));
+  await page.goto(BASE + '/auth/login');
+  await page.locator('input:not([type=password]):not([type=checkbox])').first().fill(val('Courriel'));
+  await page.locator('input[type=password]').first().fill(val('Mot de passe'));
+  await page.locator('button[type=submit]').first().click();
+  await page.waitForURL((u) => !u.pathname.includes('/auth/'), { timeout: 30000 });
+  await page.goto(BASE + '/tax-rates'); await page.waitForTimeout(3000);
+  await page.getByRole('button', { name: 'Nouveau taux de taxe' }).click();
+  await page.waitForTimeout(1500);
+  const dlg = page.locator('.bp5-dialog, .bp4-dialog, [role=dialog]').first();
+  await dlg.locator('input[name=name]').fill('Groupe test TPS+TVQ');
+  await dlg.locator('input[name=code]').fill('GRPTEST');
+  await dlg.getByText('Groupe (réunit', { exact: false }).click();
+  await page.waitForTimeout(500);
+  await dlg.getByText('TPS [5%]', { exact: true }).click();
+  await dlg.getByText('TVQ [9.975%]', { exact: true }).click();
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: path.join(OUT, '09-groupe-de-taxes-formulaire.png') });
+  await dlg.locator('button[type=submit]').click();
+  await page.waitForTimeout(2500);
+  await page.screenshot({ path: path.join(OUT, '10-groupe-de-taxes-cree.png') });
+  console.log('ok groupe');
+  await browser.close();
+})().catch((e) => { console.error('ERREUR', e.message.slice(0, 400)); process.exit(1); });

@@ -1,5 +1,6 @@
 import { Classes, Intent } from '@blueprintjs/core';
 import { Form, Formik, FormikHelpers } from 'formik';
+import intl from 'react-intl-universal';
 import * as FF from 'fp-ts/function';
 import {
   CreateTaxRateFormSchema,
@@ -82,7 +83,7 @@ function TaxRateFormDialogFormInner({
     const handleSuccess = () => {
       closeDialog(dialogName);
       AppToaster.show({
-        message: 'The tax rate has been created successfully.',
+        message: intl.get('rb_tax.msg.created'),
         intent: Intent.SUCCESS,
       });
     };

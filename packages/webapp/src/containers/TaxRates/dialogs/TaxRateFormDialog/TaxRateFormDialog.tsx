@@ -1,5 +1,6 @@
 import * as FF from 'fp-ts/function';
 import React, { lazy } from 'react';
+import intl from 'react-intl-universal';
 import styled from 'styled-components';
 import { Dialog, DialogSuspense } from '@/components';
 import withDialogRedux, {
@@ -25,7 +26,7 @@ function TaxRateFormDialogInner({
   return (
     <TaxRateDialog
       name={dialogName}
-      title={payload.id ? 'Edit Tax Rate' : 'Create Tax Rate'}
+      title={intl.get(payload.id ? 'rb_tax.edit' : 'rb_tax.create')}
       autoFocus={true}
       canEscapeKeyClose={true}
       isOpen={isOpen}

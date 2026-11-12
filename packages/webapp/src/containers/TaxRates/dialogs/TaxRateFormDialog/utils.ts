@@ -9,6 +9,8 @@ export interface TaxRateFormValues {
   description: string;
   isCompound: boolean;
   isNonRecoverable: boolean;
+  isGroup: boolean;
+  componentIds: number[];
   confirmEdit: boolean;
 }
 
@@ -19,6 +21,8 @@ export interface TaxRateFormRequestBody {
   description: string;
   isCompound: boolean;
   isNonRecoverable: boolean;
+  isGroup: boolean;
+  componentIds?: number[];
   active: boolean;
 }
 
@@ -30,6 +34,8 @@ export const defaultInitialValues: TaxRateFormValues = {
   description: '',
   isCompound: false,
   isNonRecoverable: false,
+  isGroup: false,
+  componentIds: [],
   confirmEdit: false,
 };
 
@@ -61,6 +67,10 @@ export const transformFormToReq = (
     description: form.description,
     isCompound: form.isCompound,
     isNonRecoverable: form.isNonRecoverable,
+    isGroup: !!form.isGroup,
+    componentIds: form.isGroup
+      ? (form.componentIds || []).map(Number)
+      : undefined,
     active: true,
   };
 };
@@ -88,6 +98,19 @@ export const useIsTaxRateChanged = (): boolean => {
   return isTaxRateChange(initialValues, values);
 };
 
+const parseComponentIds = (value: unknown): number[] => {
+  if (Array.isArray(value)) return value.map(Number);
+  if (typeof value === 'string' && value) {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed.map(Number) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  return [];
+};
+
 const convertFormAttrsToBoolean = (
   form: TaxRateFormValues,
 ): TaxRateFormValues => {
@@ -95,6 +118,8 @@ const convertFormAttrsToBoolean = (
     ...form,
     isCompound: !!form.isCompound,
     isNonRecoverable: !!form.isNonRecoverable,
+    isGroup: !!form.isGroup,
+    componentIds: parseComponentIds(form.componentIds),
   };
 };
 

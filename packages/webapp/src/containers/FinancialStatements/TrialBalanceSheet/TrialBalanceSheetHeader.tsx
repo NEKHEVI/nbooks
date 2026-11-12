@@ -22,7 +22,7 @@ import { transformToForm } from '@/utils';
 interface TrialBalanceFormValues {
   fromDate: Date;
   toDate: Date;
-  basis: 'cash' | 'accrual';
+  basis: 'accrual' | 'accrual';
   branchesIds: string[];
   filterByOption: string;
   [key: string]: unknown;

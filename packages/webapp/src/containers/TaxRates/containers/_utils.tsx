@@ -1,5 +1,6 @@
 import { Intent, Tag, Classes } from '@blueprintjs/core';
 import clsx from 'classnames';
+import intl from 'react-intl-universal';
 import type { TaxRate } from '@bigcapital/sdk-ts';
 import { Align } from '@/constants';
 
@@ -14,11 +15,11 @@ const codeAccessor = (taxRate: TaxRate) => {
 const statusAccessor = (taxRate: TaxRate) => {
   return taxRate.active ? (
     <Tag round={false} intent={Intent.SUCCESS}>
-      Active
+      {intl.get('rb_tax.active')}
     </Tag>
   ) : (
     <Tag round={false} intent={Intent.NONE}>
-      Inactive
+      {intl.get('rb_tax.inactive')}
     </Tag>
   );
 };
@@ -28,7 +29,15 @@ const nameAccessor = (taxRate: TaxRate) => {
     <>
       <span>{taxRate.name}</span>
       {!!taxRate.isCompound && (
-        <span className={clsx(Classes.TEXT_MUTED)}>(Compound tax)</span>
+        <span className={clsx(Classes.TEXT_MUTED)}>
+          {intl.get('rb_tax.compound')}
+        </span>
+      )}
+      {!!(taxRate as any).isGroup && (
+        <span className={clsx(Classes.TEXT_MUTED)}>
+          {' '}
+          {intl.get('rb_tax.group_tag')}
+        </span>
       )}
     </>
   );
@@ -46,28 +55,28 @@ const DescriptionAccessor = (taxRate: TaxRate) => {
 export const useTaxRatesTableColumns = () => {
   return [
     {
-      Header: 'Name',
+      Header: intl.get('rb_tax.col.name'),
       accessor: nameAccessor,
       width: 60,
     },
     {
-      Header: 'Code',
+      Header: intl.get('rb_tax.col.code'),
       accessor: codeAccessor,
       width: 40,
     },
     {
-      Header: 'Rate',
+      Header: intl.get('rb_tax.col.rate'),
       accessor: 'rateFormatted',
       align: Align.Right,
       width: 30,
     },
     {
-      Header: 'Description',
+      Header: intl.get('rb_tax.col.description'),
       accessor: DescriptionAccessor,
       width: 100,
     },
     {
-      Header: 'Status',
+      Header: intl.get('rb_tax.col.status'),
       accessor: statusAccessor,
       width: 30,
       align: Align.Right,

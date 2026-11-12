@@ -1,6 +1,7 @@
 import { Button, Classes, Intent } from '@blueprintjs/core';
 import { useFormikContext } from 'formik';
 import * as FF from 'fp-ts/function';
+import { FormattedMessage as T } from '@/components';
 import { DialogsName } from '@/constants/dialogs';
 import {
   withDialogActions,
@@ -24,7 +25,7 @@ function TaxRateFormDialogFormFooterRoot({
           onClick={handleClose}
           style={{ minWidth: '75px' }}
         >
-          Close
+          <T id={'close'} />
         </Button>
 
         <Button
@@ -33,7 +34,7 @@ function TaxRateFormDialogFormFooterRoot({
           style={{ minWidth: '95px' }}
           type="submit"
         >
-          Submit
+          <T id={'submit'} />
         </Button>
       </div>
     </div>
