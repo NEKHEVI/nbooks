@@ -1,0 +1,7 @@
+{
+  "sheet_name": "Achats par article",
+  "item_name": "Nom de l'article",
+  "quantity_purchased": "Quantité achetée",
+  "purchase_amount": "Montant des achats",
+  "average_price": "Prix moyen"
+}

@@ -13,6 +13,7 @@ import { useSplashLoading } from '@/hooks/state';
 
 const SUPPORTED_LOCALES = [
   { name: 'English', value: 'en' },
+  { name: 'Français', value: 'fr' },
   { name: 'العربية', value: 'ar' },
 ];
 
@@ -72,6 +73,7 @@ function useDocumentDirectionModifier(locale, isRTL) {
 }
 
 function transformMomentLocale(currentLocale) {
+  if (currentLocale === 'fr') return 'fr-ca';
   return currentLocale === 'ar' ? 'ar-ly' : currentLocale;
 }
 

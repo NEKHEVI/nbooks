@@ -1,0 +1,6 @@
+{
+  "admin.name": "Administrateur",
+  "admin.desc": "Accès illimité à tous les modules.",
+  "staff.name": "Employé",
+  "staff.desc": "Accès à tous les modules, sauf les rapports, les paramètres et le comptable."
+}

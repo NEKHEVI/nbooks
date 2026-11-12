@@ -1,0 +1,9 @@
+{
+  "module.sales.label": "Ventes",
+  "module.purchases.label": "Achats",
+  "module.financial.label": "Finances",
+  "module.all_transactions": "Toutes les transactions",
+  "module.sales.desc": "Factures de vente, reçus, notes de crédit, paiements reçus des clients et soldes d'ouverture des clients.",
+  "module.purchases.desc": "Factures d'achat, paiements aux fournisseurs, notes de crédit fournisseurs et soldes d'ouverture des fournisseurs.",
+  "module.financial.desc": "Journaux manuels, dépenses et ajustements d'inventaire."
+}

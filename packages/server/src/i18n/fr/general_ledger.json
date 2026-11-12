@@ -1,0 +1,14 @@
+{
+  "sheet_name": "Grand livre",
+  "date": "Date",
+  "account_name": "Nom du compte",
+  "transaction_type": "Type de transaction",
+  "transaction_number": "N° de transaction",
+  "description": "Description",
+  "credit": "Crédit",
+  "debit": "Débit",
+  "amount": "Montant",
+  "running_balance": "Solde cumulatif",
+  "opening_balance": "Solde d'ouverture",
+  "closing_balance_for": "Solde de clôture pour {accountName}"
+}

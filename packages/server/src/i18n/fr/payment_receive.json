@@ -1,0 +1,19 @@
+{
+  "field.customer": "Client",
+  "field.payment_date": "Date de paiement",
+  "field.amount": "Montant",
+  "field.reference_no": "N° de référence",
+  "field.deposit_account": "Compte de dépôt",
+  "field.payment_receive_no": "N° de paiement",
+  "field.statement": "Relevé",
+  "field.entries": "Lignes",
+  "field.exchange_rate": "Taux de change",
+  "field.invoice": "Facture",
+  "field.entries.payment_amount": "Montant du paiement",
+  "field.created_at": "Créé le",
+  "field.payment_no_hint": "Le numéro de paiement doit être unique.",
+  "field.invoice_hint": "Correspond au numéro de la facture.",
+  "mail.total": "Total",
+  "mail.subtotal": "Sous-total",
+  "mail.payment_number": "Paiement n° {paymentNumber}"
+}

@@ -1,0 +1,7 @@
+{
+  "sheet_name": "Ventes par article",
+  "item_name": "Nom de l'article",
+  "sold_quantity": "Quantité vendue",
+  "sold_amount": "Montant vendu",
+  "average_price": "Prix moyen"
+}

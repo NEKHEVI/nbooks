@@ -1,0 +1,15 @@
+{
+  "sheet_name": "Détails des articles en inventaire",
+  "opening_balance": "Solde d'ouverture",
+  "closing_balance": "Solde de clôture",
+  "date": "Date",
+  "transaction_type": "Type de transaction",
+  "transaction_number": "N° de transaction",
+  "quantity": "Quantité",
+  "rate": "Taux",
+  "total": "Total",
+  "value": "Valeur",
+  "profit_margin": "Marge bénéficiaire",
+  "running_quantity": "Quantité cumulative",
+  "running_value": "Valeur cumulative"
+}

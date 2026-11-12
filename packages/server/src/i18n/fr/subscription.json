@@ -1,0 +1,8 @@
+{
+  "status.canceled": "Annulé",
+  "status.active": "Actif",
+  "status.inactive": "Inactif",
+  "status.expired": "Expiré",
+  "status.on_trial": "En période d'essai",
+  "status.past_due": "En souffrance"
+}

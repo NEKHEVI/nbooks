@@ -1,0 +1,18 @@
+{
+  "field.payment_date": "Date de paiement",
+  "field.payment_account": "Compte de paiement",
+  "field.amount": "Montant",
+  "field.currency_code": "Devise",
+  "field.exchange_rate": "Taux de change",
+  "field.reference_no": "N° de référence",
+  "field.description": "Description",
+  "field.line_description": "Description de la ligne",
+  "field.published": "Publiée",
+  "field.categories": "Catégories",
+  "field.expense_account": "Compte de dépenses",
+  "field.publish": "Publier",
+  "field.status": "Statut",
+  "field.status.draft": "Brouillon",
+  "field.status.published": "Publiée",
+  "field.created_at": "Créée le"
+}

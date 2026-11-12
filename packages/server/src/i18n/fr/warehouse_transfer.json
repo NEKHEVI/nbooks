@@ -1,0 +1,6 @@
+{
+  "field.date": "Date du transfert",
+  "field.transaction_number": "N° de transaction",
+  "field.status": "Statut",
+  "field.created_at": "Créé le"
+}

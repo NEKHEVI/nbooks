@@ -1,0 +1,14 @@
+{
+  "customer_name": "Nom du client",
+  "vendor_name": "Nom du fournisseur",
+  "account_name": "Nom du compte",
+  "reference_type": "Type de référence",
+  "transaction_type": "Type de transaction",
+  "credit": "Crédit",
+  "debit": "Débit",
+  "running_balance": "Solde cumulatif",
+  "customers_sheet_name": "Transactions par client",
+  "vendors_sheet_name": "Transactions par fournisseur",
+  "opening_balance": "Solde d'ouverture",
+  "closing_balance": "Solde de clôture"
+}

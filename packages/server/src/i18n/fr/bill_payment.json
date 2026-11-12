@@ -1,0 +1,19 @@
+{
+  "field.vendor": "Fournisseur",
+  "field.payment_date": "Date de paiement",
+  "field.payment_number": "N° de paiement",
+  "field.payment_account": "Compte de paiement",
+  "field.exchange_rate": "Taux de change",
+  "field.note": "Note",
+  "field.reference": "Référence",
+  "field.entries": "Lignes",
+  "field.entries.bill": "Facture fournisseur",
+  "field.entries.payment_amount": "Montant du paiement",
+  "field.amount": "Montant",
+  "field.due_amount": "Montant dû",
+  "field.reference_no": "N° de référence",
+  "field.description": "Description",
+  "field.created_at": "Créé le",
+  "field.payment_number_hint": "Le numéro de paiement doit être unique.",
+  "field.bill_hint": "Correspond au numéro de la facture fournisseur."
+}

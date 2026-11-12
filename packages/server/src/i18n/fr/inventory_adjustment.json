@@ -1,0 +1,14 @@
+{
+  "decrement": "Diminution",
+  "increment": "Augmentation",
+  "field.date": "Date de l'ajustement",
+  "field.type": "Type d'ajustement",
+  "field.type.increment": "Augmentation",
+  "field.type.decrement": "Diminution",
+  "field.adjustment_account": "Compte d'ajustement",
+  "field.reason": "Motif",
+  "field.reference_no": "N° de référence",
+  "field.description": "Description",
+  "field.published_at": "Publié le",
+  "field.created_at": "Créé le"
+}

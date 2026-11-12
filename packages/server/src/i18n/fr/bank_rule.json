@@ -1,0 +1,15 @@
+{
+  "conditions.and": " et ",
+  "conditions.or": " ou ",
+  "conditions.field.amount": "Montant",
+  "conditions.field.description": "Description",
+  "conditions.field.payee": "Bénéficiaire",
+  "conditions.comparator.contains": "contient",
+  "conditions.comparator.equals": "est égal à",
+  "conditions.comparator.equal": "est égal à",
+  "conditions.comparator.not_contains": "ne contient pas",
+  "conditions.comparator.bigger": "est supérieur à",
+  "conditions.comparator.bigger_or_equal": "est supérieur ou égal à",
+  "conditions.comparator.smaller": "est inférieur à",
+  "conditions.comparator.smaller_or_equal": "est inférieur ou égal à"
+}
