@@ -45,8 +45,17 @@ export default class SeedQuebecTaxes extends TenantSeeder {
         code: '10012',
       },
     ];
+    // Tache 11 : le plan comptable du Quebec contient deja ces comptes (memes slugs) :
+    // on les retrouve au lieu de les recreer (aucun doublon).
     const ids: Record<string, number> = {};
     for (const account of accounts) {
+      const found = await knex('accounts')
+        .where({ slug: account.slug })
+        .first();
+      if (found) {
+        ids[account.slug] = found.id;
+        continue;
+      }
       const [id] = await knex('accounts').insert({ ...common, ...account });
       ids[account.slug] = id;
     }
