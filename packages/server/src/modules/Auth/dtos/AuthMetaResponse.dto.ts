@@ -6,4 +6,10 @@ export class AuthMetaResponseDto {
 
   @ApiProperty({ description: 'Whether sign-in with Google is enabled' })
   googleEnabled: boolean;
+
+  @ApiProperty({
+    description: 'Demo mode: any credentials open the demo account',
+    required: false,
+  })
+  demoAnyLogin?: boolean;
 }

@@ -13,6 +13,7 @@ export class GetAuthMetaService {
     return {
       signupDisabled: this.configService.get('signupRestrictions.disabled'),
       googleEnabled: this.configService.get<boolean>('google.enabled') ?? false,
+      demoAnyLogin: process.env.RBOOKS_DEMO_ANY_LOGIN === '1',
     };
   }
 }

@@ -76,6 +76,12 @@ export const LoginSchema = Yup.object().shape({
   password: Yup.string().required().label(intl.get('password')),
 });
 
+// Mode démo (serveur RBOOKS_DEMO_ANY_LOGIN=1) : au moins un caractère par champ.
+export const LoginSchemaDemo = Yup.object().shape({
+  crediential: Yup.string().required().min(1),
+  password: Yup.string().required().min(1),
+});
+
 export const RegisterSchema = Yup.object().shape({
   firstName: Yup.string().required().label(intl.get('first_name_')),
   lastName: Yup.string().required().label(intl.get('last_name_')),

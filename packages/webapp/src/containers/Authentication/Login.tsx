@@ -13,6 +13,7 @@ import { GoogleAuthSection } from './GoogleAuthButton';
 import { LoginForm } from './LoginForm';
 import {
   LoginSchema,
+  LoginSchemaDemo,
   transformLoginErrorsToToasts,
   LoginValues,
 } from './utils';
@@ -32,7 +33,7 @@ const initialValues: LoginValues = {
  */
 export function Login() {
   const { mutateAsync: loginMutate } = useAuthLogin();
-  const { googleEnabled } = useAuthMetaBoot();
+  const { googleEnabled, demoAnyLogin } = useAuthMetaBoot();
   const history = useHistory();
   const location = useLocation();
 
@@ -75,7 +76,7 @@ export function Login() {
 
         <Formik
           initialValues={initialValues}
-          validationSchema={LoginSchema}
+          validationSchema={demoAnyLogin ? LoginSchemaDemo : LoginSchema}
           onSubmit={handleSubmit}
           component={LoginForm}
         />

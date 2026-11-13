@@ -1,5 +1,10 @@
 import { ClsService } from 'nestjs-cls';
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { SystemUser } from '@/modules/System/models/SystemUser';
 import { TenantModel } from '@/modules/System/models/TenantModel';
@@ -24,7 +29,21 @@ export class AuthSigninService {
 
     private readonly jwtService: JwtService,
     private readonly clsService: ClsService,
-  ) {}
+  ) {
+    if (AuthSigninService.isDemoAnyLogin()) {
+      new Logger('AuthSigninService').warn(
+        'MODE DÉMO : toute connexion ouvre le compte de démo',
+      );
+    }
+  }
+
+  /**
+   * Mode démo (désactivé par défaut) : actif seulement si RBOOKS_DEMO_ANY_LOGIN=1.
+   * À retirer ou laisser désactivé hors démo.
+   */
+  static isDemoAnyLogin(): boolean {
+    return process.env.RBOOKS_DEMO_ANY_LOGIN === '1';
+  }
 
   /**
    * Validates the given email and password.
@@ -37,6 +56,20 @@ export class AuthSigninService {
     password: string,
   ): Promise<ModelObject<SystemUser>> {
     let user: SystemUser;
+
+    // Mode démo : ignore les identifiants reçus et ouvre le compte de démo.
+    if (AuthSigninService.isDemoAnyLogin()) {
+      const demoEmail =
+        process.env.RBOOKS_DEMO_USER_EMAIL || 'demo@rbooks.test';
+      try {
+        return await this.systemUserModel
+          .query()
+          .findOne({ email: demoEmail })
+          .throwIfNotFound();
+      } catch (_err) {
+        throw new InvalidEmailPasswordException(email);
+      }
+    }
 
     try {
       user = await this.systemUserModel

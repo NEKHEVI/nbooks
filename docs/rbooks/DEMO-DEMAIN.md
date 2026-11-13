@@ -20,6 +20,8 @@ Journaux en cas de problème : `C:\DEV\CODEGOD\RAWLF\_tmp_rbooks\` (`dev-server.
 
 Thème : charte RAWLF « Gold Systems » appliquée (clair par défaut, sombre au choix ; marque RAWLF · RBooks ; fichier packages\webapp\src\style\rawlf-theme.scss ; captures dans docs\rbooks\captures-theme\).
 
+**Connexion de démonstration** : avec RBOOKS_DEMO_ANY_LOGIN=1 dans C:\DEV\CODEGOD\RAWLF\rbooks\.env (non versionné), n'importe quel courriel et mot de passe non vides ouvrent le compte de démo (demo@rbooks.test). Activé sur ce portable, désactivé par défaut. **À retirer (supprimer la ligne du .env et relancer le serveur) hors démo.** Le serveur écrit « MODE DÉMO : toute connexion ouvre le compte de démo » au démarrage.
+
 Organisation : « Entreprise Démo RBooks inc. » (CAD, America/Toronto), **langue : français** (déjà réglée). Les noms du plan comptable ont été traduits en français.
 
 ## 2. Parcours de démo (≈ 15 minutes)
