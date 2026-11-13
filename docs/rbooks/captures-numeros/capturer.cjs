@@ -1,0 +1,30 @@
+// Captures headless : numeros de TPS/TVQ (reglages + apercu de facture). Usage : node capturer.cjs (Node 18, depuis C:\DEV\CODEGOD\RAWLF\rbooks)
+const { chromium } = require('@playwright/test');
+const fs = require('fs');
+const path = require('path');
+const OUT = __dirname;
+const lines = fs.readFileSync('C:\\DEV\\CODEGOD\\RAWLF\\secrets\\rbooks-demo.txt', 'utf8').split(/\r?\n/);
+const val = (k) => (lines.find((l) => l.startsWith(k)) || '').replace(/^[^:]*:\s*/, '').trim();
+const EMAIL = val('Courriel'), PASSWORD = val('Mot de passe');
+const BASE = process.env.RBOOKS_WEB || 'http://localhost:4000';
+(async () => {
+  const pw = path.join(process.env.LOCALAPPDATA, 'ms-playwright');
+  const dirs = fs.readdirSync(pw).filter((d) => d.startsWith('chromium-')).sort();
+  const exe = path.join(pw, dirs[dirs.length - 1], 'chrome-win64', 'chrome.exe');
+  const browser = await chromium.launch({ headless: true, executablePath: exe });
+  const ctx = await browser.newContext({ viewport: { width: 1500, height: 1000 }, locale: 'fr-CA' });
+  await ctx.addCookies([{ name: 'locale', value: 'fr', url: BASE }]);
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => console.log('pageerror:', e.message.slice(0, 200)));
+  const shot = async (name) => { await page.waitForTimeout(2000); await page.screenshot({ path: path.join(OUT, name + '.png') }); console.log('ok', name); };
+  await page.goto(BASE + '/auth/login');
+  await page.waitForSelector('input', { timeout: 20000 });
+  await page.locator('input:not([type=password]):not([type=checkbox])').first().fill(EMAIL);
+  await page.locator('input[type="password"]').first().fill(PASSWORD);
+  await page.locator('button[type="submit"]').first().click();
+  await page.waitForURL((u) => !u.pathname.includes('/auth/'), { timeout: 30000 });
+  await page.waitForTimeout(3000);
+  await page.goto(BASE + '/preferences/general'); await page.waitForTimeout(3000);
+  await shot('01-reglages-numeros-tps-tvq');
+  await browser.close();
+})().catch((e) => { console.error('ERREUR', e.message); process.exit(1); });

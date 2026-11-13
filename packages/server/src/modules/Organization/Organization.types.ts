@@ -37,6 +37,7 @@ export interface IOrganizationUpdateDTO {
   fiscalYear?: string;
   industry?: string;
   taxNumber?: string;
+  tvqNumber?: string;
   primaryColor?: string;
   logoKey?: string;
   address?: OrganizationAddressDTO;

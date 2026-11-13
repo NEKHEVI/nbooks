@@ -358,6 +358,8 @@
   "item_name_": "Nombre del artículo",
   "organization_industry_": "Industria de la organización",
   "organization_tax_number_": "Número de impuesto de la organización",
+  "organization_tvq_number": "Organization QST (TVQ) number",
+  "organization_tvq_number_": "Organization QST (TVQ) number",
   "base_currency_": "Moneda base",
   "date_format_": "Formato de fecha",
   "category_name_": "Nombre de la categoría",

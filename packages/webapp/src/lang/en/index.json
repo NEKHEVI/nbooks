@@ -429,6 +429,8 @@
   "item_name_": "Item name",
   "organization_industry_": "Organization industry",
   "organization_tax_number_": "Organization tax number",
+  "organization_tvq_number": "Organization QST (TVQ) number",
+  "organization_tvq_number_": "Organization QST (TVQ) number",
   "base_currency_": "Base currency",
   "date_format_": "Date format",
   "category_name_": "Category name",

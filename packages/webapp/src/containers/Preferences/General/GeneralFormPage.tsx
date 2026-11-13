@@ -23,6 +23,7 @@ const defaultValues: GeneralFormValues = {
   dateFormat: '',
   timezone: '',
   taxNumber: '',
+  tvqNumber: '',
   address: {},
 };
 

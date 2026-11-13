@@ -66,6 +66,13 @@ export class OrganizationMetadataResponseDto {
   taxNumber: string;
 
   @ApiPropertyOptional({
+    description: 'Numero de TVQ (Quebec)',
+    example: '1234567890 TQ0001',
+    nullable: true,
+  })
+  tvqNumber: string;
+
+  @ApiPropertyOptional({
     description: 'Primary brand color in hex format',
     example: '#4285F4',
     nullable: true,

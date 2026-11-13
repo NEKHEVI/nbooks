@@ -6,6 +6,9 @@ const Schema = Yup.object().shape({
   taxNumber: Yup.string()
     .nullable()
     .label(intl.get('organization_tax_number_')),
+  tvqNumber: Yup.string()
+    .nullable()
+    .label(intl.get('organization_tvq_number_')),
   industry: Yup.string().nullable().label(intl.get('organization_industry_')),
   location: Yup.string().nullable().label(intl.get('location')),
   baseCurrency: Yup.string().required().label(intl.get('base_currency_')),

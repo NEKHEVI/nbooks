@@ -4,6 +4,7 @@ import {
   organizationAddressTextFormat,
 } from '@/utils/address-text-format';
 import { findByIsoCountryCode } from '@bigcapital/utils';
+import { appendTaxNumbersToAddress } from '@/modules/RBooksQuebecTax/organizationTaxNumbers';
 
 export class TenantMetadata extends BaseModel {
   public baseCurrency!: string;
@@ -19,6 +20,8 @@ export class TenantMetadata extends BaseModel {
   public logoKey!: string;
   public logoUri!: string;
   public address!: Record<string, any>;
+  public taxNumber!: string; // RBooks : No TPS/TVH
+  public tvqNumber!: string; // RBooks : No TVQ
 
   /**
    * Json schema.
@@ -40,6 +43,8 @@ export class TenantMetadata extends BaseModel {
         primaryColor: { type: 'string', maxLength: 7 }, // Assuming hex color code
         logoKey: { type: 'string', maxLength: 255 },
         address: { type: 'object' },
+        taxNumber: { type: ['string', 'null'], maxLength: 255 },
+        tvqNumber: { type: ['string', 'null'], maxLength: 255 },
       },
     };
   }
@@ -70,15 +75,23 @@ export class TenantMetadata extends BaseModel {
   public get addressTextFormatted() {
     const addressCountry = findByIsoCountryCode(this.location);
 
-    return organizationAddressTextFormat(defaultOrganizationAddressFormat, {
-      organizationName: this.name,
-      address1: this.address?.address1,
-      address2: this.address?.address2,
-      state: this.address?.stateProvince,
-      city: this.address?.city,
-      postalCode: this.address?.postalCode,
-      phone: this.address?.phone,
-      country: addressCountry?.name ?? '',
+    const addressText = organizationAddressTextFormat(
+      defaultOrganizationAddressFormat,
+      {
+        organizationName: this.name,
+        address1: this.address?.address1,
+        address2: this.address?.address2,
+        state: this.address?.stateProvince,
+        city: this.address?.city,
+        postalCode: this.address?.postalCode,
+        phone: this.address?.phone,
+        country: addressCountry?.name ?? '',
+      },
+    );
+    // RBooks : numeros de TPS et de TVQ a la suite de l'adresse.
+    return appendTaxNumbersToAddress(addressText, {
+      taxNumber: this.taxNumber,
+      tvqNumber: this.tvqNumber,
     });
   }
 }

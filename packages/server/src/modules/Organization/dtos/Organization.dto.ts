@@ -202,4 +202,12 @@ export class UpdateOrganizationDto {
     example: '12-3456789',
   })
   taxNumber?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: "Numero de TVQ (Quebec) de l'organisation",
+    example: '1234567890 TQ0001',
+  })
+  tvqNumber?: string;
 }

@@ -347,6 +347,8 @@
   "item_name_": "Artikelns namn",
   "organization_industry_": "Organisation bransch",
   "organization_tax_number_": "Organisationens skattenummer",
+  "organization_tvq_number": "Organization QST (TVQ) number",
+  "organization_tvq_number_": "Organization QST (TVQ) number",
   "base_currency_": "Basvaluta",
   "date_format_": "Datumformat",
   "category_name_": "Namn på kategori",
