@@ -1,11 +1,12 @@
 import { ACCOUNT_TYPE } from '@/constants/accounts';
 import {
+  SalesTaxLiabilitySummaryPaidById,
   SalesTaxLiabilitySummaryPayableById,
   SalesTaxLiabilitySummaryQuery,
   SalesTaxLiabilitySummarySalesById,
 } from './SalesTaxLiability.types';
 import { Inject, Injectable, Scope } from '@nestjs/common';
-import { keyBy } from 'lodash';
+import { keyBy, uniq } from 'lodash';
 import { TaxRateModel } from '@/modules/TaxRates/models/TaxRate.model';
 import { AccountTransaction } from '@/modules/Accounts/models/AccountTransaction.model';
 import { Account } from '@/modules/Accounts/models/Account.model';
@@ -47,6 +48,12 @@ export class SalesTaxLiabilitySummaryRepository {
   taxesPayableByTaxRateId: SalesTaxLiabilitySummaryPayableById;
 
   /**
+   * RBooks : taxe payee sur les achats (comptes a recevoir CTI/RTI) par taux.
+   * @param {SalesTaxLiabilitySummaryPaidById}
+   */
+  taxesPaidByTaxRateId: SalesTaxLiabilitySummaryPaidById = {};
+
+  /**
    * @param {Array<ModelObject<TaxRateModel>>}
    */
   taxRates: Array<ModelObject<TaxRateModel>>;
@@ -67,6 +74,53 @@ export class SalesTaxLiabilitySummaryRepository {
     await this.initTaxRates();
     await this.initTaxesPayableByTaxRateId();
     await this.initAccountTransactionsByTaxRateId();
+    await this.initTaxesPaidByTaxRateId();
+  }
+
+  /**
+   * RBooks : initialise la taxe payee sur les achats par taux.
+   */
+  async initTaxesPaidByTaxRateId() {
+    this.taxesPaidByTaxRateId = await this.getTaxesPaidSumGroupedByRateId();
+  }
+
+  /**
+   * RBooks : taxe payee sur les achats (CTI/RTI), par taux de taxe.
+   * Lit le compte purchase_account_id de chaque taxe (TPS a recevoir, TVQ a recevoir) :
+   * inclut donc les factures fournisseurs avec taxes ET les lignes imputees directement
+   * a ces comptes (factures capturees).
+   * @returns {Promise<SalesTaxLiabilitySummaryPaidById>}
+   */
+  public async getTaxesPaidSumGroupedByRateId(): Promise<SalesTaxLiabilitySummaryPaidById> {
+    const withPurchaseAccount = (this.taxRates || []).filter(
+      (taxRate: any) => taxRate.purchaseAccountId && !taxRate.isGroup,
+    );
+    const accountsIds = uniq(
+      withPurchaseAccount.map((taxRate: any) => taxRate.purchaseAccountId),
+    );
+    if (!accountsIds.length) return {};
+
+    const groupedByAccount = await this.accountTransactionModel()
+      .query()
+      .whereIn('account_id', accountsIds)
+      .modify('filterDateRange', this.filter.fromDate, this.filter.toDate)
+      .modify('filterByBasis', this.basis)
+      .groupBy('account_id')
+      .select(['account_id'])
+      .sum('credit as credit')
+      .sum('debit as debit');
+
+    const byAccountId = keyBy(groupedByAccount, 'accountId');
+
+    return withPurchaseAccount.reduce((acc, taxRate: any) => {
+      const found = byAccountId[taxRate.purchaseAccountId] as any;
+      acc[taxRate.id] = {
+        taxRateId: taxRate.id,
+        credit: Number(found?.credit ?? 0),
+        debit: Number(found?.debit ?? 0),
+      };
+      return acc;
+    }, {} as SalesTaxLiabilitySummaryPaidById);
   }
 
   /**

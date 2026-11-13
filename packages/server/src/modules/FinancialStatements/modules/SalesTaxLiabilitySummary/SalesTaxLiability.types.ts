@@ -23,6 +23,10 @@ export interface SalesTaxLiabilitySummaryTotal {
   taxableAmount: SalesTaxLiabilitySummaryAmount;
   taxAmount: SalesTaxLiabilitySummaryAmount;
   collectedTaxAmount: SalesTaxLiabilitySummaryAmount;
+  /** RBooks : taxe payee sur les achats (CTI/RTI). */
+  paidTaxAmount: SalesTaxLiabilitySummaryAmount;
+  /** RBooks : taxe nette a remettre = taxe percue - taxe payee sur les achats. */
+  netTaxAmount: SalesTaxLiabilitySummaryAmount;
 }
 
 export interface SalesTaxLiabilitySummaryRate {
@@ -32,6 +36,10 @@ export interface SalesTaxLiabilitySummaryRate {
   taxAmount: SalesTaxLiabilitySummaryAmount;
   taxPercentage: any;
   collectedTaxAmount: SalesTaxLiabilitySummaryAmount;
+  /** RBooks : taxe payee sur les achats (CTI/RTI). */
+  paidTaxAmount: SalesTaxLiabilitySummaryAmount;
+  /** RBooks : taxe nette a remettre = taxe percue - taxe payee sur les achats. */
+  netTaxAmount: SalesTaxLiabilitySummaryAmount;
 }
 
 export enum SalesTaxLiabilitySummaryTableRowType {
@@ -45,6 +53,12 @@ export interface SalesTaxLiabilitySummaryReportData {
 }
 
 export type SalesTaxLiabilitySummaryPayableById = Record<
+  string,
+  { taxRateId: number; credit: number; debit: number }
+>;
+
+/** RBooks : taxe payee sur les achats, par taux de taxe (comptes a recevoir CTI/RTI). */
+export type SalesTaxLiabilitySummaryPaidById = Record<
   string,
   { taxRateId: number; credit: number; debit: number }
 >;

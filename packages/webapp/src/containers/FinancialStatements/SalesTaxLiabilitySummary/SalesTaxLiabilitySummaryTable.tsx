@@ -87,6 +87,8 @@ const SalesTaxLiabilitySummaryDataTable = styled(ReportDataTable)`
             &.td-taxPercentage,
             &.td-taxableAmount,
             &.td-collectedTax,
+            &.td-paidTax,
+            &.td-netTax,
             &.td-taxRate {
               color: var(--color-table-tax-rate-text-color);
             }

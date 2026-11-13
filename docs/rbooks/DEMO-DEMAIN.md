@@ -37,6 +37,7 @@ Captures de référence (ce que vous devez voir) : `C:\DEV\CODEGOD\RAWLF\rbooks\
 7. **PDF** d'une facture (Imprimer) : lignes « TPS (5%) » et « TVQ (9.975%) ».
 8. **Achats > Factures fournisseurs** : PE-88123 (97,73 $) et QR-4471 (104,63 $).
 9. **Rapports** (comptabilité d'exercice par défaut) : *Bilan* (TPS à payer 74,38 $, TVQ à payer 148,39 $, TPS à recevoir 8,80 $, TVQ à recevoir 17,56 $, actifs 1 816,63 $ = passifs et avoir) ; *État des résultats* (revenus 1 567,50 $, dépenses 176,00 $, bénéfice 1 391,50 $) ; *Sommaire de la taxe de vente* (TPS 74,38 $ et TVQ 148,39 $).
+   *Sommaire de la taxe de vente* : colonnes taxe perçue, taxe payée (CTI/RTI) et taxe nette, une ligne TPS et une ligne TVQ. Captures : `docs/rbooks/captures-taxes/`.
 10. **Capture par téléphone jusqu'à la facture fournisseur** (voir `C:\DEV\CODEGOD\RAWLF\rbooks-capture\DEMO.md`) :
     1. Ouvrir http://<IP>:4100 (ou localhost:4100). Bandeau « Mode démo (cache) » : aucune IA payante.
     2. « Charger les factures de test » : 10 photos, 4 doublons écartés, un reçu RONA recollé, 5 factures à vérifier.
@@ -51,11 +52,11 @@ Captures de référence (ce que vous devez voir) : `C:\DEV\CODEGOD\RAWLF\rbooks\
 - **Textes encore en anglais** : noms des taux de taxe par défaut (« Tax on Sales », etc.), descriptions de ces taux, « Discount » dans le tiroir, certains écrans secondaires (mots en dur dans le code). Éviter les écrans Paramètres avancés, importations, API.
 - **Courriels** : aucun serveur de courriel. Ne pas cliquer « Envoyer par courriel » (échec), ni « Mot de passe oublié ».
 - **Pièces jointes** : le téléversement et le lien à une facture fonctionnent (Garage réparé), mais le tiroir n'affiche pas la liste ; le logo de l'organisation n'a pas été testé.
-- **Capture** : la facture fournisseur créée met TPS et TVQ en lignes de dépense (pas de CTI/RTI automatiques) et reprend la date de la photo (RONA : 2026-06-12, donc « En retard »). Le mode « Lecture IA réelle » n'est pas activé (aucune clé).
+- **Capture** : les CTI/RTI sont automatiques (comptes TPS/TVQ à recevoir), repas à 50 %, rien de réclamé sans no de TPS/TVQ du fournisseur (note sur la facture). La date reste celle du reçu (RONA : 2026-06-12, donc « En retard »). Le mode « Lecture IA réelle » n'est pas activé (aucune clé).
 - **Dépenses** (module Dépenses) : pas de taxes ; saisir les achats comme factures fournisseurs.
 - **Base de caisse** : en comptabilité de caisse les paiements ne séparent pas TPS et TVQ. Les rapports sont réglés par défaut sur « comptabilité d'exercice » ; ne pas basculer sur « Comptant » pendant la démo (le Bilan perd la TPS/TVQ séparées).
 - **Total pendant la saisie** d'une facture : calculé avec le taux combiné 14,975 % ; le serveur recalcule par taxe à l'enregistrement (écart possible d'un cent avant d'enregistrer).
-- **Numéros de TPS/TVQ de l'entreprise** : pas imprimés sur le PDF. Part non récupérable (repas 50 %), TVH, exportations : pas faits.
+- **Numéros de TPS/TVQ de l'entreprise** : saisis dans Préférences > Général et imprimés sur les PDF (numéros fictifs dans la démo). Part non récupérable hors repas, TVH, exportations : pas faits. Plan comptable du Québec : appliqué aux NOUVELLES organisations seulement (la démo garde son plan traduit).
 - Colonne « Taux » du tiroir de facture = prix unitaire (comportement hérité) ; elle n'est pas le taux de taxe.
 - Le serveur tourne en mode développement (compilation à chaud) : ne pas modifier de fichiers pendant la démo.
 
@@ -65,3 +66,8 @@ Captures de référence (ce que vous devez voir) : `C:\DEV\CODEGOD\RAWLF\rbooks\
 - Garage (fichiers joints) en boucle de redémarrage : vérifier `GARAGE_RPC_SECRET` (64 caractères hexadécimaux) et `GARAGE_ADMIN_TOKEN` dans `C:\DEV\CODEGOD\RAWLF\rbooks\.env` (jamais commités). Les clés S3 de l'organisation sont dans le même fichier.
 - Reconnexion : mot de passe dans le fichier de secrets (ne jamais l'afficher).
 - Captures d'écran de contrôle : `node docs\rbooks\captures-demo\capturer.cjs` depuis `C:\DEV\CODEGOD\RAWLF\rbooks` (Node 18, headless, aucune fenêtre).
+
+## 5. Nouveautés du 2026-11-13 et mise à jour d'une base existante
+
+- Migration système à appliquer sur toute base existante (colonne tvq_number) : 20261113000001_rbooks_add_tvq_number_to_tenants_metadata. Déjà appliquée sur la démo locale.
+- Rapports détaillés : docs/rbooks/rapports/2026-11-13-tache-09, 10, 11 et 12. Plan comptable : docs/rbooks/PLAN-COMPTABLE-QC.md (à valider par un CPA).

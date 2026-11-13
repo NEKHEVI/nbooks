@@ -5,5 +5,7 @@
   "tax_percentage": "Tax Percentage",
   "taxable_amount": "Taxable Amount",
   "collected_tax": "Collected Tax",
-  "tax_amount": "Tax Amount"
+  "tax_amount": "Tax Amount",
+  "paid_tax": "Tax Paid on Purchases (ITC/ITR)",
+  "net_tax": "Net Tax Payable"
 }

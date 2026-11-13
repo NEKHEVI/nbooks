@@ -63,6 +63,14 @@ export class SalesTaxLiabilitySummaryTable extends flow(
         accessor: 'collectedTaxAmount.formattedAmount',
       },
       { key: 'taxAmount', accessor: 'taxAmount.formattedAmount' },
+      {
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.PAID_TAX,
+        accessor: 'paidTaxAmount.formattedAmount',
+      },
+      {
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.NET_TAX,
+        accessor: 'netTaxAmount.formattedAmount',
+      },
     ];
   }
 
@@ -86,6 +94,14 @@ export class SalesTaxLiabilitySummaryTable extends flow(
         accessor: 'collectedTaxAmount.formattedAmount',
       },
       { key: 'taxAmount', accessor: 'taxAmount.formattedAmount' },
+      {
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.PAID_TAX,
+        accessor: 'paidTaxAmount.formattedAmount',
+      },
+      {
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.NET_TAX,
+        accessor: 'netTaxAmount.formattedAmount',
+      },
     ];
   }
 
@@ -181,6 +197,14 @@ export class SalesTaxLiabilitySummaryTable extends flow(
       {
         label: this.i18n.t('sales_tax_liability_summary.tax_amount'),
         key: SALES_TAX_LIABILITY_COLUMN_KEYS.TAX_RATE,
+      },
+      {
+        label: this.i18n.t('sales_tax_liability_summary.paid_tax'),
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.PAID_TAX,
+      },
+      {
+        label: this.i18n.t('sales_tax_liability_summary.net_tax'),
+        key: SALES_TAX_LIABILITY_COLUMN_KEYS.NET_TAX,
       },
     ]);
   }

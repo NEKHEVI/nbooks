@@ -68,6 +68,15 @@ const dynamicColumnMatchers = (data: any[]): ColumnMatcher[] => [
   when(isColumnKey('taxRate'), taxableAmountAccessor(data)),
   when(isColumnKey('taxPercentage'), taxableAmountAccessor(data)),
   when(isColumnKey('collectedTax'), taxableAmountAccessor(data)),
+  // RBooks : taxe payee sur les achats (CTI/RTI) et taxe nette a remettre.
+  when(
+    isColumnKey('paidTax' as SalesTaxLiabilityColumnKey),
+    taxableAmountAccessor(data),
+  ),
+  when(
+    isColumnKey('netTax' as SalesTaxLiabilityColumnKey),
+    taxableAmountAccessor(data),
+  ),
 ];
 
 const dynamicColumnMapper =

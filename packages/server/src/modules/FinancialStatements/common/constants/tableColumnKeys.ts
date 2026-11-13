@@ -219,6 +219,8 @@ export const SALES_TAX_LIABILITY_COLUMN_KEYS = {
   TAX_PERCENTAGE: 'taxPercentage',
   TAXABLE_AMOUNT: 'taxableAmount',
   COLLECTED_TAX: 'collectedTax',
+  PAID_TAX: 'paidTax',
+  NET_TAX: 'netTax',
   TAX_RATE: 'taxRate',
 } as const;
 

@@ -4,6 +4,8 @@
   "tax_name": "Nom de la taxe",
   "tax_percentage": "Pourcentage de la taxe",
   "taxable_amount": "Montant imposable",
-  "collected_tax": "Taxe perçue",
-  "tax_amount": "Montant de la taxe"
+  "collected_tax": "Remises et ajustements (débits)",
+  "tax_amount": "Taxe perçue sur les ventes",
+  "paid_tax": "Taxe payée sur les achats (CTI/RTI)",
+  "net_tax": "Taxe nette à remettre"
 }
