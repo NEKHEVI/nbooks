@@ -77,7 +77,7 @@ export function PreferencesGeneralForm({
         <FInputGroup name={'taxNumber'} fastField={true} />
       </FFormGroup>
 
-      {/* ---------- RBooks : No TVQ (Quebec) ----------  */}
+      {/* ---------- NBooks : No TVQ (Quebec) ----------  */}
       <FFormGroup
         name={'tvqNumber'}
         label={intl.get('organization_tvq_number')}

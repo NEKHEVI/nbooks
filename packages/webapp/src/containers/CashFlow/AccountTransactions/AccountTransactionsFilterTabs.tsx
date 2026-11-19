@@ -48,7 +48,7 @@ export function AccountTransactionsFilterTabs() {
       <ContentTabs.Tab
         id="all"
         title={'All Transactions'}
-        description={'In RBooks'}
+        description={'In NBooks'}
       />
     </AccountContentTabs>
   );

@@ -38,6 +38,7 @@ import { QuickNewDropdown } from '@/containers/QuickNewDropdown/QuickNewDropdown
 import { withUniversalSearchActions } from '@/containers/UniversalSearch/withUniversalSearchActions';
 import { useNotificationsUnreadCount } from '@/hooks/query/notifications';
 import { useDrawerActions } from '@/hooks/state/dashboard';
+import { NbThemeMenu } from '@/components/NbBrand/NbThemeMenu';
 
 type DashboardTopbarProps = Pick<
   WithDashboardProps,
@@ -194,6 +195,7 @@ function DashboardTopbar({
                 text={<T id={'help'} />}
               />
             </Popover2>
+            <NbThemeMenu />
             <NavbarDivider />
           </NavbarGroup>
         </Navbar>

@@ -1,5 +1,5 @@
 /**
- * RBooks : plan comptable par defaut du Quebec (francais), utilise a la creation d'une
+ * NBooks : plan comptable par defaut du Quebec (francais), utilise a la creation d'une
  * organisation quand la langue est le francais canadien ou le pays/province est CA-QC
  * (voir `modules/RBooksQuebecTax/quebecChart.ts`). Le plan anglais (`accounts.ts`) est inchange.
  *

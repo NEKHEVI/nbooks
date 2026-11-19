@@ -1,5 +1,5 @@
 export const defaultEstimateMailReceiptProps = {
-  companyName: 'RBooks',
+  companyName: 'NBooks',
   companyLogoUri: ' ',
 
   total: '$1,000.00',
@@ -19,5 +19,5 @@ From your online payment page you can print a PDF or view your outstanding bills
 If you have any questions, please let us know.
 
 Thanks,
-RBooks`,
+NBooks`,
 };

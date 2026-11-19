@@ -58,7 +58,7 @@ export const defaultPaymentReceivedPdfTemplateAttributes = {
   companyLogoUri: '',
 
   // # Company name
-  companyName: 'RBooks',
+  companyName: 'NBooks',
 
   // # Customer address
   showCustomerAddress: true,

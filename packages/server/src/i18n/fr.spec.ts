@@ -1,4 +1,4 @@
-// RBooks: guards the French (fr-CA) translations against drift from English.
+// NBooks: guards the French (fr-CA) translations against drift from English.
 import * as fs from 'fs';
 import * as path from 'path';
 

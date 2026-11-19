@@ -196,7 +196,7 @@ export function PaymentPortal() {
         </Stack>
 
         <Text className={clsx(Classes.TEXT_MUTED, styles.buyNote)}>
-          By confirming your payment, you allow RBooks to charge you for this
+          By confirming your payment, you allow NBooks to charge you for this
           payment and save your payment information in accordance with their
           terms.
         </Text>
@@ -210,7 +210,7 @@ export function PaymentPortal() {
         ></Box>
 
         <Stack spacing={0} className={styles.footerText}>
-          © 2024 RBooks
+          © 2024 NBooks
           <br />
           All rights reserved.
         </Stack>

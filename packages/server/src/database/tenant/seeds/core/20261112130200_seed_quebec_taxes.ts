@@ -1,7 +1,7 @@
 import { TenantSeeder } from '@/libs/migration-seed/TenantSeeder';
 
 /**
- * RBooks : pour une organisation en CAD, cree les 4 comptes de taxe
+ * NBooks : pour une organisation en CAD, cree les 4 comptes de taxe
  * (TPS/TVQ a payer, TPS/TVQ a recevoir), les taux TPS 5 % et TVQ 9,975 % et le
  * groupe « TPS + TVQ ».
  */

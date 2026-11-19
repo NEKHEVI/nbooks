@@ -167,7 +167,7 @@ export const defaultInvoicePdfTemplateAttributes = {
   primaryColor: 'red',
   secondaryColor: 'red',
 
-  companyName: 'RBooks',
+  companyName: 'NBooks',
 
   showCompanyLogo: true,
   companyLogoKey: '',

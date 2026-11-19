@@ -9,21 +9,16 @@ import { withDashboardActions } from '@/containers/Dashboard/withDashboardAction
 import { withDialogActions } from '@/containers/Dialog/withDialogActions';
 import { withUniversalSearchActions } from '@/containers/UniversalSearch/withUniversalSearchActions';
 import { getDashboardRoutes } from '@/routes/dashboard';
+import { toggleNkMode } from '@/theme/nkTheme';
 
 interface GlobalHotkeyRoute {
   path: string;
   hotkey?: string;
 }
 
-// Toggle dark/light mode by toggling 'bp4-dark' class on body
+// NBooks : bascule clair / sombre sur html et body, gardée pour la prochaine visite.
 const handleToggleDarkMode = () => {
-  const body = document.body;
-
-  if (body.classList.contains('bp4-dark')) {
-    body.classList.remove('bp4-dark');
-  } else {
-    body.classList.add('bp4-dark');
-  }
+  toggleNkMode();
 };
 
 type GlobalHotkeysProps = Pick<

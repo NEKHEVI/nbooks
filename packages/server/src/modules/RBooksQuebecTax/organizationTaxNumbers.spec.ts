@@ -4,7 +4,7 @@ import {
 } from './organizationTaxNumbers';
 import { TenantMetadata } from '@/modules/System/models/TenantMetadataModel';
 
-describe('RBooks : numeros de taxe sur les documents', () => {
+describe('NBooks : numeros de taxe sur les documents', () => {
   it('formate les lignes TPS et TVQ en francais', () => {
     expect(
       getOrganizationTaxNumberLines({

@@ -48,7 +48,7 @@ export class SalesTaxLiabilitySummaryRepository {
   taxesPayableByTaxRateId: SalesTaxLiabilitySummaryPayableById;
 
   /**
-   * RBooks : taxe payee sur les achats (comptes a recevoir CTI/RTI) par taux.
+   * NBooks : taxe payee sur les achats (comptes a recevoir CTI/RTI) par taux.
    * @param {SalesTaxLiabilitySummaryPaidById}
    */
   taxesPaidByTaxRateId: SalesTaxLiabilitySummaryPaidById = {};
@@ -78,14 +78,14 @@ export class SalesTaxLiabilitySummaryRepository {
   }
 
   /**
-   * RBooks : initialise la taxe payee sur les achats par taux.
+   * NBooks : initialise la taxe payee sur les achats par taux.
    */
   async initTaxesPaidByTaxRateId() {
     this.taxesPaidByTaxRateId = await this.getTaxesPaidSumGroupedByRateId();
   }
 
   /**
-   * RBooks : taxe payee sur les achats (CTI/RTI), par taux de taxe.
+   * NBooks : taxe payee sur les achats (CTI/RTI), par taux de taxe.
    * Lit le compte purchase_account_id de chaque taxe (TPS a recevoir, TVQ a recevoir) :
    * inclut donc les factures fournisseurs avec taxes ET les lignes imputees directement
    * a ces comptes (factures capturees).

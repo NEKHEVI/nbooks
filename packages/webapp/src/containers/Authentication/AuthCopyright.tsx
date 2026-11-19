@@ -1,15 +1,17 @@
+/** Pied des pages de connexion : NBooks, une application NEKHEVI, basée sur Bigcapital (AGPL-3.0). */
 export function AuthCopyright() {
   return (
     <span
       style={{
-        fontFamily: "'Sora', sans-serif",
-        fontWeight: 600,
-        fontSize: 11,
-        letterSpacing: '0.3em',
-        opacity: 0.55,
+        fontFamily: 'var(--nb-font-mono)',
+        fontWeight: 500,
+        fontSize: 10.5,
+        letterSpacing: '0.16em',
+        textTransform: 'uppercase',
+        opacity: 0.6,
       }}
     >
-      RAWLF
+      NBooks · NEKHEVI · basé sur Bigcapital (AGPL-3.0)
     </span>
   );
 }

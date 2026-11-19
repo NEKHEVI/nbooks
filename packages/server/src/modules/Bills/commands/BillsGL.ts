@@ -169,7 +169,7 @@ export class BillGL {
   }
 
   /**
-   * RBooks : une ecriture par taxe (TPS a recevoir / CTI, TVQ a recevoir / RTI)
+   * NBooks : une ecriture par taxe (TPS a recevoir / CTI, TVQ a recevoir / RTI)
    * et par ligne. Sans composantes, comportement Bigcapital inchange.
    */
   private getBillTaxEntriesOfEntry(

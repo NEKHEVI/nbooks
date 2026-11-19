@@ -1,5 +1,5 @@
 /**
- * RBooks: groupes de taxes (TPS + TVQ), comptes de taxe par taux, composantes
+ * NBooks: groupes de taxes (TPS + TVQ), comptes de taxe par taux, composantes
  * de taxe enregistrees par ligne et montant de taxe par document.
  *
  * @param { import("knex").Knex } knex

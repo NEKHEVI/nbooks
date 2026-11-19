@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage as T } from '@/components';
-import { RawlfAuthLogo } from '@/components/RawlfBrand/RawlfBrand';
+import { NbAuthLogo } from '@/components/NbBrand/NbBrand';
 
 export default function DashboardErrorBoundary() {
   return (
@@ -11,7 +11,7 @@ export default function DashboardErrorBoundary() {
       <p>
         <T id={'if_the_problem_stuck_please_contact_us_as_soon_as_possible'} />
       </p>
-      <RawlfAuthLogo />
+      <NbAuthLogo />
     </div>
   );
 }

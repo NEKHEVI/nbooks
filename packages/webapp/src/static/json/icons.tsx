@@ -142,7 +142,7 @@ export default {
     ],
     viewBox: '0 0 384 512',
   },
-  // RBooks temporary neutral logo (blocky text glyphs).
+  // NBooks temporary neutral logo (blocky text glyphs).
   bigcapital: {
     path: [
       'M0 0.89h24v6h-24z',

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import { RawlfAuthLogo } from '@/components/RawlfBrand/RawlfBrand';
+import { NbAuthLogo } from '@/components/NbBrand/NbBrand';
 
 import '@/style/components/BigcapitalLoading.scss';
 
@@ -17,7 +17,7 @@ export default function BigcapitalLoading({
   return (
     <div className={classNames('bigcapital-loading', className)}>
       <div className="center">
-        <RawlfAuthLogo />
+        <NbAuthLogo />
       </div>
     </div>
   );

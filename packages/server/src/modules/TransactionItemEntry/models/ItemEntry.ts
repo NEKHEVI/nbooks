@@ -38,7 +38,7 @@ export class ItemEntry extends BaseModel {
 
   public taxRateId: number;
 
-  /** RBooks : composantes de taxe (JSON), pour les groupes TPS + TVQ. */
+  /** NBooks : composantes de taxe (JSON), pour les groupes TPS + TVQ. */
   public taxComponents: string;
 
   public warehouseId: number;
@@ -162,7 +162,7 @@ export class ItemEntry extends BaseModel {
    * @returns {number}
    */
   get taxAmount() {
-    // RBooks : si la ligne porte plusieurs taxes, somme des taxes arrondies.
+    // NBooks : si la ligne porte plusieurs taxes, somme des taxes arrondies.
     if (this.taxComponents) {
       const amounts = computeEntryTaxComponents(this);
       if (amounts.length) return sumTaxComponentAmounts(amounts);

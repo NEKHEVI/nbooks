@@ -8,7 +8,7 @@ export default class SeedAccounts extends TenantSeeder {
    * Seeds initial accounts to the organization.
    */
   up(knex) {
-    // RBooks : plan comptable du Quebec (noms deja en francais) pour une organisation
+    // NBooks : plan comptable du Quebec (noms deja en francais) pour une organisation
     // fr-CA / CA-QC ; sinon plan Bigcapital traduit selon la langue.
     const isQuebec = shouldUseQuebecChart(this.tenant?.metadata);
     const data = isQuebec

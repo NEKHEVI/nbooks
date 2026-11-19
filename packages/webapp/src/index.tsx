@@ -7,6 +7,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import '@/services/yup';
+// NBooks : polices des 4 thèmes, servies par l'app (aucun appel à Google Fonts).
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource-variable/bricolage-grotesque';
 import App from '@/components/App';
 import * as serviceWorker from '@/serviceWorker';
 import { store, persistor } from '@/store/create-store';

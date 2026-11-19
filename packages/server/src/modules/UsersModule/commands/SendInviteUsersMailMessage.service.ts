@@ -30,7 +30,7 @@ export class SendInviteUsersMailMessage {
     const baseURL = this.configService.get('app.baseUrl');
 
     const mail = new Mail()
-      .setSubject(`${fromUser.firstName} has invited you to join RBooks`)
+      .setSubject(`${fromUser.firstName} has invited you to join NBooks`)
       .setView('mail/UserInvite.html')
       .setTo(invite.email)
       .setAttachments([

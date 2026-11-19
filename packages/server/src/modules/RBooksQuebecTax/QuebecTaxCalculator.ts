@@ -1,5 +1,5 @@
 /**
- * RBooks : calcul des taxes multiples par ligne (TPS + TVQ).
+ * NBooks : calcul des taxes multiples par ligne (TPS + TVQ).
  *
  * Fonctions pures, sans acces a la base de donnees.
  *

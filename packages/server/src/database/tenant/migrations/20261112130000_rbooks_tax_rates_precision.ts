@@ -1,5 +1,5 @@
 /**
- * RBooks: passe les colonnes de taux de taxe en DECIMAL(9,5) pour que 9,975 %
+ * NBooks: passe les colonnes de taux de taxe en DECIMAL(9,5) pour que 9,975 %
  * (TVQ) ne soit pas arrondi a 9,98 %.
  *
  * @param { import("knex").Knex } knex

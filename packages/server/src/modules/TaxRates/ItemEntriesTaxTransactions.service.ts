@@ -89,7 +89,7 @@ export class ItemEntriesTaxTransactions {
 
     const taxRatesMap = keyBy(foundTaxes, 'id');
 
-    // RBooks : charge les composantes des groupes de taxes (ex. TPS + TVQ).
+    // NBooks : charge les composantes des groupes de taxes (ex. TPS + TVQ).
     const groupComponentIds = foundTaxes
       .filter((t: any) => t.isGroup)
       .flatMap((t: any) => parseComponentIds(t.componentIds));

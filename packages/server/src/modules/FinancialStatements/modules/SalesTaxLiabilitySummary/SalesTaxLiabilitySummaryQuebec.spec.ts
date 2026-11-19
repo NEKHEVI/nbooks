@@ -1,5 +1,5 @@
 /**
- * RBooks (tache 12) : rapport de taxe de vente pour le Quebec.
+ * NBooks (tache 12) : rapport de taxe de vente pour le Quebec.
  * - TPS et TVQ separees (la base d'un groupe « TPS + TVQ » est repartie sur ses composantes) ;
  * - taxe percue sur les ventes, taxe payee sur les achats (CTI/RTI) et taxe nette par periode.
  */

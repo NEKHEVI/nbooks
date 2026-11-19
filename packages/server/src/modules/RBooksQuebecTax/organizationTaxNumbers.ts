@@ -1,5 +1,5 @@
 /**
- * RBooks : numeros de TPS/TVH et de TVQ de l'entreprise, affiches sur les documents
+ * NBooks : numeros de TPS/TVH et de TVQ de l'entreprise, affiches sur les documents
  * (factures, soumissions, recus de vente, notes de credit) a la suite de l'adresse.
  *
  * Libelles en francais : « TPS : 123456789 RT0001 », « TVQ : 1234567890 TQ0001 ».

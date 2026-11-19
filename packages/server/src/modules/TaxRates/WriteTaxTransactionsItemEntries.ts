@@ -48,7 +48,7 @@ export class WriteTaxTransactionsItemEntries {
       .whereIn('id', entriesTaxRateIds);
     const taxRatesById = keyBy(taxRates, 'id');
 
-    // RBooks : une ligne `tax_rate_transactions` par taxe (les groupes sont
+    // NBooks : une ligne `tax_rate_transactions` par taxe (les groupes sont
     // decomposes en composantes), avec le montant reel = somme des lignes.
     const rows = new Map<number, any>();
     const addRow = (

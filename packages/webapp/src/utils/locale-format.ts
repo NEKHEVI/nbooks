@@ -1,4 +1,4 @@
-// RBooks: locale-aware money formatting options (fr-CA: "1 234,56 $").
+// NBooks: locale-aware money formatting options (fr-CA: "1 234,56 $").
 import intl from 'react-intl-universal';
 
 const NBSP = '\u00A0';

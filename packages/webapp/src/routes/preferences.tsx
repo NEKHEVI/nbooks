@@ -15,6 +15,15 @@ export const getPreferenceRoutes = () => [
     exact: true,
   },
   {
+    path: `${BASE_URL}/appearance`,
+    component: lazy(() =>
+      import('@/containers/Preferences/Appearance/PreferencesAppearance').then(
+        (m) => ({ default: m.PreferencesAppearance }),
+      ),
+    ),
+    exact: true,
+  },
+  {
     path: `${BASE_URL}/branding`,
     component: lazy(() =>
       import('../containers/Preferences/Branding/PreferencesBrandingPage').then(

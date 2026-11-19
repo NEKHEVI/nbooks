@@ -17,7 +17,7 @@ import {
 } from '../../types/Report.types';
 
 /**
- * RBooks : identifiants des composantes d'un groupe de taxes (JSON texte ou tableau).
+ * NBooks : identifiants des composantes d'un groupe de taxes (JSON texte ou tableau).
  */
 const parseGroupComponentIds = (taxRate: any): number[] => {
   const raw = taxRate?.componentIds;
@@ -72,7 +72,7 @@ export class SalesTaxLiabilitySummary extends FinancialSheet {
       : 0;
     const salesTaxAmount = this.getTaxableSalesAmount(taxRate);
 
-    // RBooks : taxe payee sur les achats (CTI/RTI) et taxe nette a remettre.
+    // NBooks : taxe payee sur les achats (CTI/RTI) et taxe nette a remettre.
     const paidTax = this.repository.taxesPaidByTaxRateId?.[taxRate.id];
     const paidTaxAmount = paidTax ? paidTax.debit - paidTax.credit : 0;
     const netTaxAmount = payableTaxAmount - paidTaxAmount;
@@ -99,7 +99,7 @@ export class SalesTaxLiabilitySummary extends FinancialSheet {
   };
 
   /**
-   * RBooks : montant imposable d'une taxe. Une ligne taxee par un groupe (TPS + TVQ)
+   * NBooks : montant imposable d'une taxe. Une ligne taxee par un groupe (TPS + TVQ)
    * porte l'identifiant du groupe : la base est rattachee a chacune de ses composantes.
    * @param {ModelObject<TaxRateModel>} taxRate
    * @returns {number}
@@ -147,7 +147,7 @@ export class SalesTaxLiabilitySummary extends FinancialSheet {
    * @returns {SalesTaxLiabilitySummaryRate[]}
    */
   private taxRatesLiability = (): SalesTaxLiabilitySummaryRate[] => {
-    // RBooks : les groupes (TPS + TVQ) n'ont pas de ligne propre : leur base et leurs
+    // NBooks : les groupes (TPS + TVQ) n'ont pas de ligne propre : leur base et leurs
     // montants sont repartis sur leurs composantes (TPS, TVQ).
     const taxRates = this.repository.taxRates.filter(
       (taxRate: any) =>

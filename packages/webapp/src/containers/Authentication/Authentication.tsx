@@ -6,7 +6,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import { AuthMetaBootProvider } from './AuthMetaBoot';
 import { Box } from '@/components';
-import { RawlfAuthLogo } from '@/components/RawlfBrand/RawlfBrand';
+import { NbAuthLogo } from '@/components/NbBrand/NbBrand';
 import authenticationRoutes from '@/routes/authentication';
 
 import '@/style/pages/Authentication/Auth.scss';
@@ -17,7 +17,7 @@ export function Authentication() {
       <AuthPage>
         <AuthInsider>
           <AuthLogo>
-            <RawlfAuthLogo />
+            <NbAuthLogo />
           </AuthLogo>
 
           <AuthMetaBootProvider>

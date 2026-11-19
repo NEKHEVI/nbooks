@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 
 /**
- * RBooks : prepare les donnees d'un groupe de taxes (ex. TPS + TVQ) avant
+ * NBooks : prepare les donnees d'un groupe de taxes (ex. TPS + TVQ) avant
  * l'enregistrement : valide les composantes, calcule le taux effectif et
  * serialise la liste des composantes.
  *

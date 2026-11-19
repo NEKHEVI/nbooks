@@ -8,7 +8,7 @@ http.interceptors.request.use(
   (request) => {
     const state = store.getState();
     const { token, organization } = state.authentication;
-    // RBooks: send the UI language (cookie synced with the organization language).
+    // NBooks: send the UI language (cookie synced with the organization language).
     const locale = jsCookie.get('locale') || 'en';
 
     if (token) {

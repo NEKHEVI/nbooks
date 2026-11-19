@@ -1,4 +1,4 @@
-@import './normalize.scss';
+﻿@import './normalize.scss';
 @import './_base.scss';
 
 @import '@blueprintjs/core/src/blueprint.scss';
@@ -43,8 +43,8 @@
 @import 'pages/fonts';
 @import "section";
 
-// Theme RAWLF (toujours en dernier)
-@import 'rawlf-theme';
+// Thème NBooks (toujours en dernier)
+@import 'nbooks-theme';
 
 body {
   background-color: var(--color-app-body);

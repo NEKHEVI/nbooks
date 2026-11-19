@@ -20,8 +20,8 @@ export class TenantMetadata extends BaseModel {
   public logoKey!: string;
   public logoUri!: string;
   public address!: Record<string, any>;
-  public taxNumber!: string; // RBooks : No TPS/TVH
-  public tvqNumber!: string; // RBooks : No TVQ
+  public taxNumber!: string; // NBooks : No TPS/TVH
+  public tvqNumber!: string; // NBooks : No TVQ
 
   /**
    * Json schema.
@@ -88,7 +88,7 @@ export class TenantMetadata extends BaseModel {
         country: addressCountry?.name ?? '',
       },
     );
-    // RBooks : numeros de TPS et de TVQ a la suite de l'adresse.
+    // NBooks : numeros de TPS et de TVQ a la suite de l'adresse.
     return appendTaxNumbersToAddress(addressText, {
       taxNumber: this.taxNumber,
       tvqNumber: this.tvqNumber,

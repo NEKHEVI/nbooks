@@ -40,7 +40,7 @@ export function PaperTemplate({
         `
       )}
     >
-      <style>{`:root { --invoice-primary-color: ${primaryColor}; --invoice-secondary-color: ${secondaryColor}; }`}</style>
+      <style>{`:root { --invoice-primary-color: ${primaryColor || '#BB8221'}; --invoice-secondary-color: ${secondaryColor || '#0B0B0C'}; }`}</style>
       {children}
     </Box>
   );

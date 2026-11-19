@@ -1,10 +1,10 @@
 /**
- * RBooks : choix du plan comptable par defaut a la creation d'une organisation.
+ * NBooks : choix du plan comptable par defaut a la creation d'une organisation.
  *
  * Le plan du Quebec (`database/tenant/seeds/data/accountsQuebec.ts`) est utilise quand :
  *  - la langue de l'organisation est `fr-CA` (ou `fr_CA`), ou
  *  - le pays/province est `CA-QC` (ou la province de l'adresse est QC/Quebec avec le pays CA), ou
- *  - la langue est `fr` (seul code francais accepte par RBooks) ET le pays est CA ou la devise CAD.
+ *  - la langue est `fr` (seul code francais accepte par NBooks) ET le pays est CA ou la devise CAD.
  * Dans tous les autres cas, le plan anglais de Bigcapital reste inchange.
  */
 export interface QuebecChartMetadata {

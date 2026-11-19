@@ -92,7 +92,7 @@ export const defaultCreditNoteBrandingAttributes = {
   companyLogoUri: '',
 
   // # Company name
-  companyName: 'RBooks',
+  companyName: 'NBooks',
 
   // # Customer address
   showCustomerAddress: true,

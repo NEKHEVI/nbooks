@@ -9,17 +9,17 @@ export const DefaultPdfTemplateItemName = 'Web development';
 export const DefaultPdfTemplateItemDescription =
   'Website development with content and SEO optimization';
 
-export const DefaultPdfTemplateAddressBilledTo = `Bigcapital Technology, Inc.<br />
-131 Continental Dr, <br />
-Suite 305, <br />
-Newark, Delaware 19713, <br />
-United States,<br />
-+1 762-339-5634
+// NBooks : données d'exemple fictives pour l'aperçu des modèles (aucune vraie entreprise).
+export const DefaultPdfTemplateAddressBilledTo = `Client Exemple inc.<br />
+123, rue de l'Exemple<br />
+Montréal (Québec) H2X 1Y4<br />
+Canada<br />
+514 555-0100
 `;
 
-export const DefaultPdfTemplateAddressBilledFrom = `131 Continental Dr Suite 305 Newark, <br />
-Delaware 19713,<br />
-United States, <br />
-+1 762-339-5634, <br />
-ahmed@bigcapital.app
+export const DefaultPdfTemplateAddressBilledFrom = `456, boulevard Fictif<br />
+Laval (Québec) H7N 0A0<br />
+Canada<br />
+450 555-0199<br />
+facturation@exemple.invalid
 `;

@@ -3,7 +3,7 @@ import { QuebecAccountsData } from '@/database/tenant/seeds/data/accountsQuebec'
 import { AccountsData } from '@/database/tenant/seeds/data/accounts';
 import { ACCOUNT_TYPE } from '@/constants/accounts';
 
-describe('RBooks : plan comptable du Quebec', () => {
+describe('NBooks : plan comptable du Quebec', () => {
   describe('choix de la variante', () => {
     it('utilise le plan QC pour fr-CA, CA-QC, fr + CAD', () => {
       expect(shouldUseQuebecChart({ language: 'fr-CA' })).toBe(true);

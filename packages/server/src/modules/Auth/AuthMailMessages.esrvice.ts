@@ -23,7 +23,7 @@ export class AuthenticationMailMesssages {
     const baseURL = this.configService.get('app.baseUrl');
 
     return new Mail()
-      .setSubject('RBooks - Password Reset')
+      .setSubject('NBooks - Password Reset')
       .setView('mail/ResetPassword.html')
       .setTo(user.email)
       .setAttachments([
@@ -58,7 +58,7 @@ export class AuthenticationMailMesssages {
     const verifyUrl = `${baseURL}/auth/email_confirmation?token=${token}&email=${email}`;
 
     return new Mail()
-      .setSubject('RBooks - Verify your email')
+      .setSubject('NBooks - Verify your email')
       .setView('mail/SignupVerifyEmail.html')
       .setTo(email)
       .setAttachments([

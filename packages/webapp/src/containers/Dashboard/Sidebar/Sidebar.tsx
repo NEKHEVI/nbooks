@@ -1,6 +1,6 @@
 import React from 'react';
 import { SidebarOverlayBinded } from '../SidebarOverlay';
-import { RawlfBrand } from '@/components/RawlfBrand/RawlfBrand';
+import { NbBrand } from '@/components/NbBrand/NbBrand';
 import { useMainSidebarMenu } from './hooks';
 import { SidebarContainer } from './SidebarContainer';
 import { SidebarHead } from './SidebarHead';
@@ -17,7 +17,7 @@ export function Sidebar() {
 
   return (
     <SidebarContainer>
-      <RawlfBrand />
+      <NbBrand />
       <SidebarHead />
 
       <div className="sidebar__menu">

@@ -88,7 +88,7 @@ export class CommandTaxRateDto {
   active?: boolean;
 
   /**
-   * RBooks : le taux est un groupe de taxes (ex. TPS + TVQ).
+   * NBooks : le taux est un groupe de taxes (ex. TPS + TVQ).
    */
   @IsBoolean()
   @IsOptional()
@@ -96,7 +96,7 @@ export class CommandTaxRateDto {
   isGroup?: boolean;
 
   /**
-   * RBooks : identifiants des taux composants du groupe.
+   * NBooks : identifiants des taux composants du groupe.
    */
   @IsArray()
   @IsOptional()
@@ -104,7 +104,7 @@ export class CommandTaxRateDto {
   componentIds?: number[];
 
   /**
-   * RBooks : compte du grand livre des taxes perçues (ventes).
+   * NBooks : compte du grand livre des taxes perçues (ventes).
    */
   @IsInt()
   @IsOptional()
@@ -112,7 +112,7 @@ export class CommandTaxRateDto {
   salesAccountId?: number;
 
   /**
-   * RBooks : compte du grand livre des taxes payées (achats).
+   * NBooks : compte du grand livre des taxes payées (achats).
    */
   @IsInt()
   @IsOptional()
@@ -120,7 +120,7 @@ export class CommandTaxRateDto {
   purchaseAccountId?: number;
 
   /**
-   * RBooks : numéro d'inscription (TPS ou TVQ).
+   * NBooks : numéro d'inscription (TPS ou TVQ).
    */
   @IsString()
   @IsOptional()

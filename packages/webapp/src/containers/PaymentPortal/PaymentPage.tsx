@@ -113,10 +113,10 @@ export function InvoicePaymentPage({
   payInvoiceButtonProps,
 
   // # Buy note
-  buyNote = 'By confirming your payment, you allow RBooks to charge you for this payment and save your payment information in accordance with their terms.',
+  buyNote = 'By confirming your payment, you allow NBooks to charge you for this payment and save your payment information in accordance with their terms.',
 
   // # Copyright
-  copyrightText = `© 2024 RBooks <br /> All rights reserved.`,
+  copyrightText = `© 2024 NBooks <br /> All rights reserved.`,
   classNames,
 }: PaymentPageProps) {
   return (

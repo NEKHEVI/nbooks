@@ -115,7 +115,7 @@ const sumRates = (list: any[], ids: number[]) =>
   ) / 100000;
 
 /**
- * RBooks : case « Groupe » et choix des taxes composantes (ex. TPS + TVQ).
+ * NBooks : case « Groupe » et choix des taxes composantes (ex. TPS + TVQ).
  * Le serveur recalcule le taux du groupe (somme des composantes).
  */
 function TaxGroupFields() {

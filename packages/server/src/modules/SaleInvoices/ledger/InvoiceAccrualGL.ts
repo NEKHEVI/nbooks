@@ -149,7 +149,7 @@ export class InvoiceAccrualGL {
   }
 
   /**
-   * RBooks : une ecriture par taxe (TPS, TVQ) et par ligne, chacune dans son
+   * NBooks : une ecriture par taxe (TPS, TVQ) et par ligne, chacune dans son
    * compte. Sans composantes, comportement Bigcapital inchange.
    */
   private getInvoiceTaxEntriesOfEntry(

@@ -72,7 +72,7 @@ export const SaleReceiptsSampleData = [
 export const defaultSaleReceiptBrandingAttributes = {
   primaryColor: '',
   secondaryColor: '',
-  companyName: 'RBooks',
+  companyName: 'NBooks',
 
   // # Company logo
   showCompanyLogo: true,

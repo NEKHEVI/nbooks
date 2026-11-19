@@ -4,8 +4,8 @@ export const initialValues = {
   templateName: '',
 
   // Colors
-  primaryColor: '#2c3dd8',
-  secondaryColor: '#2c3dd8',
+  primaryColor: '#BB8221', // NBooks : or NEKHEVI foncé (lisible sur papier blanc)
+  secondaryColor: '#0B0B0C',
 
   // Company logo.
   showCompanyLogo: true,
