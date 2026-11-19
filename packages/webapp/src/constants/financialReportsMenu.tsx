@@ -196,8 +196,8 @@ export const financialReportMenus: FinancialSection[] = [
     sectionTitle: 'Taxes',
     reports: [
       {
-        title: 'Sales Tax Liability Summary',
-        desc: 'Reports the total amount of sales tax collected from customers',
+        title: <T id={'nbooks.sales_tax_liability_summary'} />,
+        desc: <T id={'nbooks.sales_tax_liability_summary_desc'} />,
         link: '/financial-reports/sales-tax-liability-summary',
         subject: AbilitySubject.Report,
         ability: ReportsAction.READ_SALES_TAX_LIABILITY_SUMMARY,

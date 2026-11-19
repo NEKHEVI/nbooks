@@ -617,3 +617,72 @@ html[data-nk-theme='bento'] {
 @media (prefers-reduced-motion: reduce) {
   html[data-nk-theme] .bp4-button { transition: none; }
 }
+
+// ---------------------------------------------------------------------
+// 6. Téléphone et tablette (Bigcapital vise l'ordinateur : on évite le défilement
+//    horizontal de la page entière ; seuls les tableaux défilent dans leur cadre).
+// ---------------------------------------------------------------------
+@media (max-width: 1099px) {
+  html[data-nk-theme] {
+    .dashboard__topbar { min-width: 0; }
+    .dashboard__topbar-right, .dashboard__topbar-left { min-width: 0; }
+    .dashboard__actions-bar, .bp4-navbar.dashboard__actions-bar {
+      overflow-x: auto; overflow-y: hidden; white-space: nowrap; scrollbar-width: thin;
+      .bp4-navbar-group { flex-wrap: nowrap; }
+    }
+    .bigcapital-datatable, .financial-sheet, .financial-sheet__table { overflow-x: auto; max-width: 100%; }
+    .financial-sheet { min-width: 0; width: 100% !important; }
+  }
+}
+@media (max-width: 767px) {
+  html[data-nk-theme] {
+    .dashboard__topbar h1, .dashboard__title h1 { font-size: 15px; }
+    .dashboard__topbar .dashboard__topbar-breadcrumb, .dashboard__topbar .bp4-breadcrumbs { display: none; }
+    .dashboard__topbar-navbar .bp4-button .bp4-button-text { display: none; }
+    .dashboard__topbar-navbar .bp4-popover2-target { display: none; } // bouton Aide masqué sur téléphone, faute de place
+    .dashboard__topbar-right { flex: 0 0 auto; }
+    .homepage__container, .financial-reports { margin-left: 16px !important; margin-right: 16px !important; }
+    .financial-reports .shortcut-boxes, .homepage__container .shortcut-boxes { max-width: none; }
+    .financial-reports .shortcut-boxes .shortcut-box, .homepage__container .shortcut-box { width: 100%; }
+    .bp4-dialog { width: calc(100vw - 24px) !important; max-width: none; margin: 12px; }
+    .bp4-drawer { width: 100vw !important; }
+    .preferences-page { flex-direction: column; }
+    .preferences-page__sidebar { position: static !important; width: 100% !important; min-width: 0; height: auto !important; max-height: 168px; overflow-y: auto; border-bottom: 1px solid var(--nb-border); }
+    .preferences-page__content { margin-left: 0 !important; min-width: 0; }
+    .page-form__floating-actions { flex-wrap: wrap; gap: 6px; }
+  }
+}
+
+// Barre latérale repliée (icônes) : seul le symbole harfang reste visible ; au survol, la marque complète.
+.sidebar__head-logo .nb-mini-mark { width: 30px; height: 24px; }
+.sidebar--mini-sidebar {
+  .nb-brand { opacity: 0; transition: opacity 0.3s ease-in-out; }
+  .sidebar__scroll-wrapper:hover .nb-brand { opacity: 1; }
+}
+@media (max-width: 1099px) {
+  .dashboard-content { min-width: 0 !important; }
+}
+@media (max-width: 767px) {
+  .dashboard__topbar h1, .dashboard__title h1, .dashboard__title {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 48vw;
+  }
+}
+// Initiales de l'usager (barre du haut) : lisibles dans les 4 thèmes, clair et sombre.
+html[data-nk-theme] .dashboard__topbar .user-text, html[data-nk-theme] .preferences-topbar .user-text {
+  color: var(--nb-fg) !important; font-family: var(--nb-font-mono); font-weight: 600; letter-spacing: 0.04em;
+}
+@media (max-width: 767px) {
+  html[data-nk-theme] {
+    // Préférences : menu des sections en bandeau défilant au-dessus du contenu.
+    .preferences-page__sidebar { flex: 0 0 168px !important; height: 168px !important; max-height: none; width: auto !important; align-self: stretch; }
+    .preferences-sidebar__wrapper, .preferences-page__sidebar .ScrollbarsCustom { height: 100% !important; width: 100% !important; }
+    // « Retour à la liste » : flèche seule.
+    .dashboard__back-link a { font-size: 0; display: inline-flex; padding: 6px; }
+    .dashboard__back-link .bp4-icon { margin: 0; }
+    // Rapports : colonne des libellés plus étroite pour voir les montants.
+    .bigcapital-datatable.has-sticky .tr > .td:first-child,
+    .bigcapital-datatable.has-sticky .tr > .th:first-child {
+      width: 150px !important; min-width: 150px !important; max-width: 150px !important; flex: 0 0 150px !important;
+    }
+  }
+}

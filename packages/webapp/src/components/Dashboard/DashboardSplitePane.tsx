@@ -1,8 +1,13 @@
 import * as FF from 'fp-ts/function';
 import { debounce } from 'lodash';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import SplitPane from 'react-split-pane';
 import { withDashboard } from '@/containers/Dashboard/withDashboard';
+import { toggleExpendSidebar } from '@/store/dashboard/dashboard.actions';
+
+// NBooks : sur téléphone, la barre latérale démarre repliée (icônes seulement).
+const NB_PHONE_MAX_WIDTH = 768;
 
 interface DashboardSplitPaneProps {
   sidebarExpended: boolean;
@@ -29,6 +34,13 @@ function DashboardSplitPane({
   children,
 }: DashboardSplitPaneProps) {
   const initialSize = 220;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (window.innerWidth < NB_PHONE_MAX_WIDTH && sidebarExpended) {
+      dispatch(toggleExpendSidebar(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [defaultSize, setDefaultSize] = useState(
     parseInt(localStorage.getItem('dashboard-size') || '', 10) || initialSize,

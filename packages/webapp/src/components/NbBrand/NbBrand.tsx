@@ -5,7 +5,7 @@ interface NbBrandProps {
 }
 
 /** Symbole harfang NEKHEVI : version fond clair ou fond sombre selon le mode (CSS). */
-function NbMark({ className }: NbBrandProps) {
+export function NbMark({ className }: NbBrandProps) {
   return (
     <>
       <img

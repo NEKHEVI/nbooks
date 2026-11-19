@@ -1,0 +1,163 @@
+// NBooks : tableau de bord « instrument » (accueil). Jetons --nb-* de nbooks-theme.scss.
+// Base commune, puis une touche par thème (editorial, instrument, verre, bento).
+
+.nb-panel {
+  margin: 22px 32px 6px;
+  color: var(--nb-fg);
+  font-family: var(--nb-font-sans);
+
+  &--loading .nb-fig { opacity: 0.35; }
+
+  &__head {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px;
+    padding-bottom: 12px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--nb-divider);
+  }
+  &__eyebrow {
+    font-family: var(--nb-font-mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--nb-accent-text);
+  }
+  &__title {
+    margin: 0; font-family: var(--nb-font-display); font-weight: var(--nb-display-weight);
+    letter-spacing: var(--nb-display-tracking); font-size: 22px; color: var(--nb-fg);
+  }
+  &__asof { margin-left: auto; font-size: 12px; color: var(--nb-muted); font-family: var(--nb-font-mono); }
+
+  &__hero {
+    display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 12px; margin-bottom: 12px;
+  }
+  &__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+
+  &__legend {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; padding: 0;
+    font-size: 11px; color: var(--nb-muted);
+    li { display: inline-flex; align-items: center; gap: 6px; }
+  }
+}
+
+.nb-gauge {
+  position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 0;
+  padding: 16px 18px; border-radius: var(--nb-r-lg);
+  background: var(--nb-surface); border: 1px solid var(--nb-border);
+  color: inherit; text-decoration: none !important;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+
+  &:hover { border-color: var(--nb-border-strong); color: inherit; }
+  &:focus-visible { outline: 2px solid var(--nb-ring, var(--nb-accent)); outline-offset: 2px; }
+
+  &__label {
+    font-family: var(--nb-font-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--nb-muted);
+  }
+  &__value { display: flex; flex-direction: column; gap: 10px; }
+  &__hint {
+    display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center;
+    font-size: 12px; color: var(--nb-fg2); font-variant-numeric: tabular-nums;
+  }
+  &__sub { font-size: 12px; color: var(--nb-muted); font-family: var(--nb-font-mono); }
+
+  &--hero { padding: 20px 22px; }
+}
+
+.nb-sep { color: var(--nb-faint); }
+
+.nb-fig {
+  display: inline-flex; align-items: baseline; gap: 6px; line-height: 1; white-space: nowrap;
+  font-family: var(--nb-font-num); font-variant-numeric: tabular-nums lining-nums;
+  color: var(--nb-fg); transition: opacity 0.2s ease;
+
+  &__cur { font-size: 0.42em; color: var(--nb-muted); font-family: var(--nb-font-mono); letter-spacing: 0.04em; }
+  &__num { letter-spacing: -0.02em; }
+
+  &--xl { font-size: clamp(40px, 5.2vw, 64px); font-weight: 600; }
+  &--lg { font-size: clamp(30px, 3.4vw, 42px); font-weight: 600; }
+  &--md { font-size: clamp(22px, 2.2vw, 28px); font-weight: 600; }
+  &--neg .nb-fig__num { color: var(--nb-danger); }
+}
+
+// Règle graduée (marge nette)
+.nb-rule {
+  position: relative; display: block; height: 6px; border-radius: 999px; overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, var(--nb-border) 0 1px, transparent 1px 10%),
+    var(--nb-sunken);
+  &__fill { position: absolute; inset: 0 auto 0 0; background: var(--nb-accent); border-radius: inherit; }
+}
+
+// Âge des soldes
+.nb-meter {
+  display: flex; gap: 2px; width: 100%; height: 6px; border-radius: 999px; overflow: hidden;
+  background: var(--nb-sunken);
+  &--empty { opacity: 0.6; }
+  &__seg { display: block; min-width: 3px; height: 100%; }
+  &__dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; }
+  &__seg--0 { background: var(--nb-silver, var(--nb-fg2)); }
+  &__seg--1 { background: var(--nb-accent); }
+  &__seg--2 { background: var(--nb-warning); }
+  &__seg--3 { background: var(--nb-danger); }
+}
+
+// ----- Personnalité par thème -----
+html[data-nk-theme='editorial'] {
+  .nb-gauge { background: transparent; border-width: 0 0 1px 0; border-radius: 0; padding-left: 0; padding-right: 0; }
+  .nb-panel__hero .nb-gauge--hero { border-right: 1px solid var(--nb-divider); padding-right: 22px; }
+  .nb-fig { font-weight: 400; }
+  .nb-fig--xl { font-size: clamp(48px, 6.4vw, 84px); }
+  .nb-rule__fill { background: var(--nb-accent); }
+}
+
+html[data-nk-theme='instrument'] {
+  .nb-gauge {
+    background-color: var(--nb-surface);
+    box-shadow: inset 0 1px 0 var(--nb-highlight), 0 2px 0 var(--nb-key-depth);
+  }
+  .nb-gauge--hero::after {
+    content: ''; position: absolute; top: 14px; right: 16px; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--nb-success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--nb-success) 18%, transparent);
+  }
+  .nb-fig { font-weight: 500; letter-spacing: -0.03em; }
+}
+
+html[data-nk-theme='verre'] {
+  .nb-gauge {
+    background: var(--nb-glass); border-color: var(--nb-glass-border); border-radius: var(--nb-r-xl);
+    backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: inset 0 1px 0 var(--nb-highlight), 0 18px 50px var(--nb-shadow);
+  }
+  .nb-gauge--hero {
+    background:
+      radial-gradient(520px 220px at 85% 0%, var(--nb-glow-1), transparent 70%),
+      var(--nb-glass);
+  }
+  .nb-fig { font-weight: 300; letter-spacing: -0.03em; }
+}
+
+html[data-nk-theme='bento'] {
+  .nb-gauge { border-color: transparent; border-radius: var(--nb-r-xl); background: var(--nb-raised); }
+  .nb-gauge--hero { background: var(--nb-accent); color: var(--nb-accent-on); }
+  .nb-gauge--hero .nb-gauge__label, .nb-gauge--hero .nb-gauge__sub,
+  .nb-gauge--hero .nb-gauge__hint, .nb-gauge--hero .nb-fig, .nb-gauge--hero .nb-fig__cur, .nb-gauge--hero .nb-sep {
+    color: var(--nb-accent-on);
+  }
+  .nb-gauge--hero .nb-rule { background: color-mix(in srgb, var(--nb-accent-on) 18%, transparent); }
+  .nb-gauge--hero .nb-rule__fill { background: var(--nb-accent-on); }
+  .nb-fig { font-family: var(--nb-font-display); font-weight: 800; letter-spacing: -0.04em; }
+}
+
+// ----- Téléphone et tablette -----
+@media (max-width: 1100px) {
+  .nb-panel__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .nb-panel { margin: 14px 16px 4px; }
+  .nb-panel__hero { grid-template-columns: minmax(0, 1fr); }
+  .nb-panel__asof { margin-left: 0; width: 100%; }
+  .nb-gauge { padding: 14px; }
+  html[data-nk-theme='editorial'] .nb-panel__hero .nb-gauge--hero { border-right: 0; padding-right: 0; }
+}
+@media (max-width: 420px) {
+  .nb-panel__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-gauge, .nb-fig { transition: none; }
+}

@@ -1,3 +1,4 @@
+import intl from 'react-intl-universal';
 import React from 'react';
 import styled from 'styled-components';
 import { getReportRowTestId } from '../reportTestIds';
@@ -27,7 +28,7 @@ function SalesTaxLiabilitySummaryTableRoot() {
   return (
     <FinancialSheet
       companyName={organizationName}
-      sheetType={'Sales Tax Liability Summary'}
+      sheetType={intl.get('nbooks.sales_tax_liability_summary')}
       dateText={meta?.formattedDateRange}
     >
       <SalesTaxLiabilitySummaryDataTable

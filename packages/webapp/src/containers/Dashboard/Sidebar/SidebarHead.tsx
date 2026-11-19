@@ -14,6 +14,7 @@ import intl from 'react-intl-universal';
 import type { ComponentType } from 'react';
 import { Icon, IconProps, FormattedMessage as T } from '@/components';
 import { DRAWERS } from '@/constants/drawers';
+import { NbMark } from '@/components/NbBrand/NbBrand';
 import {
   withDrawerActions,
   WithDrawerActionsProps,
@@ -338,12 +339,7 @@ function SidebarHeadJSX({
       </div>
 
       <div className="sidebar__head-logo">
-        <Icon
-          icon={'mini-bigcapital'}
-          width={28}
-          height={28}
-          className="bigcapital--alt"
-        />
+        <NbMark className="nb-mini-mark" />
       </div>
     </div>
   );

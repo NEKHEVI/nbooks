@@ -1,6 +1,6 @@
 # NBooks : déploiement sur un VPS au Canada
 
-Préparé le 19 novembre 2026. **Rien n'est loué ni acheté** : ce guide sert à décider. Adresse prévue : `https://books.nekhevi.com`.
+Préparé le 19 novembre 2026, mis à jour le même jour (script d'installation, dépôt public). **Rien n'est loué ni acheté** : ce guide sert à décider. Adresse prévue : `https://books.nekhevi.com`.
 
 NBooks n'est pas une app Vercel : il lui faut un serveur NestJS, MariaDB, Redis, Gotenberg (PDF) et Garage (fichiers, compatible S3). Tout tient sur une seule machine avec `docker-compose.prod.yml`.
 
@@ -32,31 +32,40 @@ Sources : ovhcloud.com/en-ca/vps/vps-canada, digitalocean.com/pricing/droplets, 
 - Enregistrement `A` : `books` → adresse IPv4 du VPS, **DNS only (nuage gris)** pour que Caddy obtienne son certificat Let's Encrypt.
 - (Optionnel) `AAAA` : `books` → IPv6 du VPS.
 
-## 4. Installation (Ubuntu 24.04 LTS)
+## 4. Installation (Ubuntu 24.04 LTS) : une commande
 
-Sur le VPS, en tant qu'utilisateur avec sudo (jamais root pour l'app) :
+Le jour où Fred donne le signal (VPS commandé, DNS ajouté) :
 
-1. Mises à jour, pare-feu : ouvrir seulement 22 (SSH, par clé), 80 et 443.
-2. Installer Docker Engine et le plugin Compose depuis la documentation officielle de Docker.
-3. Cloner le dépôt privé `NEKHEVI/nbooks` (clé de déploiement en lecture seule) dans `/opt/nbooks`, branche `nbooks/main`.
-4. `cp .env.example .env`, puis remplir au minimum : `NBOOKS_DOMAIN=books.nekhevi.com`, `ACME_EMAIL`, `BASE_URL=https://books.nekhevi.com`, `DB_USER`, `DB_PASSWORD`, `DB_ROOT_PASSWORD`, `APP_JWT_SECRET` (48 octets aléatoires), `GARAGE_RPC_SECRET` (32 octets hex), `GARAGE_ADMIN_TOKEN`, le serveur de courriel (`MAIL_*`), `SIGNUP_DISABLED=true` et `SIGNUP_ALLOWED_EMAILS`. `chmod 600 .env`. Le fichier `.env` ne sort jamais du VPS.
-5. Construire : `docker compose -f docker-compose.prod.yml build`
-6. Démarrer la base : `docker compose -f docker-compose.prod.yml up -d mysql redis garage gotenberg`
-7. Migrations : `docker compose -f docker-compose.prod.yml --profile migrate run --rm database_migration`
-8. Garage (une fois) : `docker compose -f docker-compose.prod.yml exec garage sh /garage-setup/setup.sh`, puis copier la clé S3 affichée dans `.env` (`S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET=nbooks`).
-9. Tout démarrer : `docker compose -f docker-compose.prod.yml up -d`
-10. Ouvrir https://books.nekhevi.com, créer le compte de Fred (adresse permise dans `SIGNUP_ALLOWED_EMAILS`), puis remettre les inscriptions fermées.
+```bash
+# Sur le VPS, utilisateur avec sudo (accès SSH par clé seulement)
+curl -fsSLo installer-vps.sh https://raw.githubusercontent.com/NEKHEVI/nbooks/main/deploy/nbooks/installer-vps.sh
+less installer-vps.sh          # le relire avant de le lancer
+sudo bash installer-vps.sh books.nekhevi.com <courriel Let's Encrypt> <courriel du compte de Fred>
+```
 
-Mise à jour : `git pull`, `build`, migrations, `up -d`. Pas de mise à jour automatique (Watchtower retiré : il aurait installé Bigcapital d'origine).
+Le script (`deploy/nbooks/installer-vps.sh`, dans le dépôt) fait tout, dans l'ordre :
+
+1. Mises à jour, pare-feu `ufw` (22, 80, 443 seulement), Docker et Compose depuis les paquets Ubuntu.
+2. Clone du dépôt public `NEKHEVI/nbooks` dans `/opt/nbooks`.
+3. `.env` créé à partir de `.env.example` (droits 600) : domaine, `BASE_URL`, `ACME_EMAIL`, mots de passe MariaDB, `APP_JWT_SECRET`, secrets Garage, tous tirés au hasard avec `openssl rand` et **jamais affichés**. Inscriptions permises seulement pour l'adresse de Fred.
+4. Construction des images (10 à 20 minutes).
+5. MariaDB, Redis, Garage, Gotenberg ; migrations ; Garage configuré (zone, compartiment `nbooks`, clé d'accès inscrite dans `.env`). L'image Garage n'a pas de shell : le script appelle son binaire `/garage` directement (l'ancien `exec garage sh /garage-setup/setup.sh` ne marche pas).
+6. Démarrage de tout, Caddy obtient le certificat HTTPS.
+
+Ensuite, à la main : créer le compte de Fred sur https://books.nekhevi.com, puis `SIGNUP_DISABLED=true` dans `/opt/nbooks/.env` et `docker compose -f docker-compose.prod.yml up -d server`. Remplir `MAIL_*` quand le service d'envoi est choisi.
+
+Le script est relançable : un `.env` existant n'est jamais écrasé et les étapes faites sont sautées.
+
+Mise à jour : `git -C /opt/nbooks pull`, `build`, migrations (`--profile migrate run --rm database_migration`), `up -d`. Pas de mise à jour automatique (Watchtower retiré : il aurait installé Bigcapital d'origine).
 
 ## 5. Code source (AGPL-3.0, article 13)
 
-NBooks dérive de Bigcapital (AGPL-3.0). Les usagers qui s'en servent par le réseau doivent pouvoir obtenir le code source de la version qui tourne. Le dépôt GitHub est **privé** : un lien vers lui ne suffit pas. Il faut, avant d'ouvrir NBooks à un client, soit un dépôt ou une archive publique de la version déployée, et mettre son adresse dans `NBOOKS_SOURCE_URL` (le lien « Code source » apparaît alors au bas de l'app). Décision de Fred.
+NBooks dérive de Bigcapital (AGPL-3.0). Les usagers qui s'en servent par le réseau doivent pouvoir obtenir le code source de la version qui tourne. Depuis le 19 novembre 2026, le dépôt **NEKHEVI/nbooks est public** (accord de Fred). `NBOOKS_SOURCE_URL` vaut par défaut `https://github.com/NEKHEVI/nbooks` (`.env.example` et `docker-compose.prod.yml`) : le lien « Code source » est donc affiché au bas de l'app. Déployer seulement du code poussé sur ce dépôt.
 
 ## 6. Sauvegardes
 
-- Base : `docker compose -f docker-compose.prod.yml exec -T mysql sh -c 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --all-databases --single-transaction' | gzip > /opt/nbooks-sauvegardes/nbooks-$(date +%F).sql.gz` chaque nuit (cron), 30 jours gardés.
-- Fichiers : volume `nbooks_prod_garage`.
+- Script prêt : `deploy/nbooks/sauvegarde.sh` (base complète avec `mysqldump` + fichiers Garage, 30 jours gardés dans `/opt/nbooks-sauvegardes`).
+- Cron (root) : `15 3 * * * bash /opt/nbooks/deploy/nbooks/sauvegarde.sh >> /var/log/nbooks-sauvegarde.log 2>&1`
 - Copie hors du VPS, chiffrée (par exemple avec restic) vers un stockage au Canada : à choisir par Fred.
 - Tester une restauration une fois par trimestre.
 

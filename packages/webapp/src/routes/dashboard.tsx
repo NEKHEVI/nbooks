@@ -476,8 +476,8 @@ export const getDashboardRoutes = () => [
         '@/containers/FinancialStatements/SalesTaxLiabilitySummary/SalesTaxLiabilitySummary'
       ).then((m) => ({ default: m.SalesTaxLiabilitySummary })),
     ),
-    breadcrumb: 'Sales Tax Liability Summary',
-    pageTitle: 'Sales Tax Liability Summary',
+    breadcrumb: intl.get('nbooks.sales_tax_liability_summary'),
+    pageTitle: intl.get('nbooks.sales_tax_liability_summary'),
     backLink: true,
     sidebarExpand: false,
     feature: Features.SalesTax,

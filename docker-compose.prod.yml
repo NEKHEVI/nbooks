@@ -106,7 +106,7 @@ services:
 
       # Application
       - BASE_URL=${BASE_URL:-https://books.nekhevi.com}
-      - NBOOKS_SOURCE_URL=${NBOOKS_SOURCE_URL:-}
+      - NBOOKS_SOURCE_URL=${NBOOKS_SOURCE_URL:-https://github.com/NEKHEVI/nbooks}
 
       # Inscriptions : fermées par défaut, seulement les adresses permises
       - SIGNUP_DISABLED=${SIGNUP_DISABLED:-true}

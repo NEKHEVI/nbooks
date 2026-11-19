@@ -758,7 +758,7 @@ export const SidebarMenu: SidebarMenuItem[] = [
             type: ISidebarMenuItemType.Group,
             children: [
               {
-                text: 'Sales Tax Liability Summary',
+                text: <T id={'nbooks.sales_tax_liability_summary'} />,
                 href: '/financial-reports/sales-tax-liability-summary',
                 type: ISidebarMenuItemType.Link,
                 feature: Features.SalesTax,
