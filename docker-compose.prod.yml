@@ -1,198 +1,204 @@
-# This is a production version of the Bigcapital docker-compose.yml file.
+# NBooks : production sur un VPS (Docker Compose), sous-domaine prévu books.nekhevi.com.
+# Basé sur le docker-compose.prod.yml de Bigcapital (AGPL-3.0). Différences :
+#  - webapp et server sont CONSTRUITS depuis ce dépôt (images nbooks-*), jamais tirés de
+#    bigcapitalhq/* : sinon on déploierait Bigcapital d'origine sans les ajouts québécois.
+#  - plus de Watchtower (mise à jour automatique) : on met à jour en reconstruisant, à la main.
+#  - Caddy remplace Envoy : HTTPS automatique (Let's Encrypt) pour NBOOKS_DOMAIN.
+#  - seuls les ports 80 et 443 sont ouverts ; MariaDB, Redis, Gotenberg et Garage restent internes.
+#  - ClickHouse devient optionnel (profil « analytics »), désactivé par défaut.
+# Guide : docs/nbooks/DEPLOIEMENT-VPS.md. Fichier .env : copier .env.example, ne jamais le commiter.
+#
+#   docker compose -f docker-compose.prod.yml build
+#   docker compose -f docker-compose.prod.yml --profile migrate run --rm database_migration
+#   docker compose -f docker-compose.prod.yml up -d
 
-version: '3.3'
+name: nbooks
+
+x-restart: &restart
+  restart: unless-stopped
 
 services:
   proxy:
-    image: envoyproxy/envoy:v1.30-latest
+    <<: *restart
+    image: caddy:2.8-alpine
     depends_on:
       - server
       - webapp
     ports:
-      - '${PUBLIC_PROXY_PORT:-80}:80'
-      - '${PUBLIC_PROXY_SSL_PORT:-443}:443'
-    tty: true
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      - NBOOKS_DOMAIN=${NBOOKS_DOMAIN:-books.nekhevi.com}
+      - ACME_EMAIL=${ACME_EMAIL:?ACME_EMAIL is required in .env (adresse pour Let's Encrypt)}
     volumes:
-      - ./docker/envoy/envoy.yaml:/etc/envoy/envoy.yaml
-    restart: on-failure
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   webapp:
-    container_name: bigcapital-webapp
-    image: bigcapitalhq/webapp:latest
-    restart: on-failure
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+    <<: *restart
+    container_name: nbooks-webapp
+    image: nbooks-webapp:${NBOOKS_VERSION:-local}
+    build:
+      context: ./
+      dockerfile: packages/webapp/Dockerfile
+    expose:
+      - '80'
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   server:
-    container_name: bigcapital-server
-    image: bigcapitalhq/server:latest
+    <<: *restart
+    container_name: nbooks-server
+    image: nbooks-server:${NBOOKS_VERSION:-local}
+    build:
+      context: ./
+      dockerfile: packages/server/Dockerfile
     expose:
       - '3000'
-    links:
-      - mysql
-      - redis
     depends_on:
       - mysql
       - redis
       - garage
-    restart: on-failure
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - gotenberg
     networks:
-      - bigcapital_network
+      - nbooks_network
     environment:
-      # Mail
+      # Fuseau et langue par défaut
+      - TZ=America/Toronto
+
+      # Mail (Proton, Postmark, etc. : à choisir par Fred)
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_PORT=${MAIL_PORT}
       - MAIL_SECURE=${MAIL_SECURE}
-      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-NBooks}
       - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
 
-      # Database
+      # Base de données
       - DB_HOST=mysql
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_CHARSET=${DB_CHARSET}
+      - DB_USER=${DB_USER:?DB_USER is required in .env}
+      - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD is required in .env}
+      - DB_CHARSET=${DB_CHARSET:-utf8mb4}
+      - SYSTEM_DB_NAME=${SYSTEM_DB_NAME:-nbooks_system}
+      - TENANT_DB_NAME_PERFIX=${TENANT_DB_NAME_PERFIX:-nbooks_tenant_}
 
-      # System database
-      - SYSTEM_DB_NAME=${SYSTEM_DB_NAME}
-
-      # Redis
+      # Redis (files d'attente)
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - QUEUE_HOST=redis
       - QUEUE_PORT=6379
 
-      # Tenants databases
-      - TENANT_DB_NAME_PERFIX=${TENANT_DB_NAME_PERFIX}
-
-      # ClickHouse analytics store
+      # ClickHouse (optionnel, profil analytics)
       - CLICKHOUSE_ENABLED=${CLICKHOUSE_ENABLED:-false}
       - CLICKHOUSE_HOST=clickhouse
       - CLICKHOUSE_PORT=8123
       - CLICKHOUSE_USER=${CLICKHOUSE_USER:-default}
-      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:?CLICKHOUSE_PASSWORD is required in .env - generate one with openssl rand -base64 32}
-      - CLICKHOUSE_DATABASE=${CLICKHOUSE_DATABASE:-bigcapital_analytics}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:-}
+      - CLICKHOUSE_DATABASE=${CLICKHOUSE_DATABASE:-nbooks_analytics}
 
-      # Authentication
+      # Authentification
       - 'APP_JWT_SECRET=${APP_JWT_SECRET:?APP_JWT_SECRET is required in .env - generate one with openssl rand -base64 48}'
 
       # Application
-      - BASE_URL=${BASE_URL}
+      - BASE_URL=${BASE_URL:-https://books.nekhevi.com}
+      - NBOOKS_SOURCE_URL=${NBOOKS_SOURCE_URL:-}
 
-      # Sign-up restrictions
-      - SIGNUP_DISABLED=${SIGNUP_DISABLED}
-      - SIGNUP_ALLOWED_DOMAINS=${SIGNUP_ALLOWED_DOMAINS}
-      - SIGNUP_ALLOWED_EMAILS=${SIGNUP_ALLOWED_EMAILS}
+      # Inscriptions : fermées par défaut, seulement les adresses permises
+      - SIGNUP_DISABLED=${SIGNUP_DISABLED:-true}
+      - SIGNUP_ALLOWED_DOMAINS=${SIGNUP_ALLOWED_DOMAINS:-}
+      - SIGNUP_ALLOWED_EMAILS=${SIGNUP_ALLOWED_EMAILS:-}
+      - SIGNUP_EMAIL_CONFIRMATION=${SIGNUP_EMAIL_CONFIRMATION:-true}
 
-      # Sign-up email confirmation
-      - SIGNUP_EMAIL_CONFIRMATION=${SIGNUP_EMAIL_CONFIRMATION}
+      # Gotenberg (PDF), interne
+      - GOTENBERG_URL=http://gotenberg:3000
+      - GOTENBERG_DOCS_URL=${GOTENBERG_DOCS_URL:-http://server:3000/public/}
 
-      # Gotenberg (Pdf generator)
-      - GOTENBERG_URL=${GOTENBERG_URL}
-      - GOTENBERG_DOCS_URL=${GOTENBERG_DOCS_URL}
-
-      # Exchange Rate
+      # Taux de change
       - EXCHANGE_RATE_SERVICE=${EXCHANGE_RATE_SERVICE}
       - OPEN_EXCHANGE_RATE_APP_ID=${OPEN_EXCHANGE_RATE_APP_ID}
 
-      # Bank Sync
-      - BANK_FEED_ENABLED=${BANK_FEED_ENABLED}
-
-      # Plaid
+      # Synchronisation bancaire (Plaid) : désactivée par défaut
+      - BANK_FEED_ENABLED=${BANK_FEED_ENABLED:-false}
       - PLAID_ENV=${PLAID_ENV}
       - PLAID_CLIENT_ID=${PLAID_CLIENT_ID}
       - PLAID_SECRET=${PLAID_SECRET}
       - PLAID_LINK_WEBHOOK=${PLAID_LINK_WEBHOOK}
-      - PLAID_CLIENT_NAME=${PLAID_CLIENT_NAME}
+      - PLAID_CLIENT_NAME=${PLAID_CLIENT_NAME:-NBooks}
 
-      # Stripe Billing (Bigcapital Cloud)
-      - FREE_TRIAL_DAYS=${FREE_TRIAL_DAYS:-15}
-      - STRIPE_BILLING_SECRET_KEY=${STRIPE_BILLING_SECRET_KEY}
-      - STRIPE_BILLING_WEBHOOK_SECRET=${STRIPE_BILLING_WEBHOOK_SECRET}
-      - STRIPE_BILLING_PORTAL_CONFIGURATION_ID=${STRIPE_BILLING_PORTAL_CONFIGURATION_ID}
-      - STRIPE_BILLING_SUCCESS_URL=${STRIPE_BILLING_SUCCESS_URL}
-      - STRIPE_BILLING_CANCEL_URL=${STRIPE_BILLING_CANCEL_URL}
-
-      # New Relic matrics tracking.
-      - NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=${NEW_RELIC_DISTRIBUTED_TRACING_ENABLED}
-      - NEW_RELIC_LOG=${NEW_RELIC_LOG}
-      - NEW_RELIC_AI_MONITORING_ENABLED=${NEW_RELIC_AI_MONITORING_ENABLED}
-      - NEW_RELIC_CUSTOM_INSIGHTS_EVENTS_MAX_SAMPLES_STORED=${NEW_RELIC_CUSTOM_INSIGHTS_EVENTS_MAX_SAMPLES_STORED}
-      - NEW_RELIC_SPAN_EVENTS_MAX_SAMPLES_STORED=${NEW_RELIC_SPAN_EVENTS_MAX_SAMPLES_STORED}
-      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
-      - NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
-
-      # S3
-      - S3_REGION=${S3_REGION}
+      # Stockage des pièces jointes (Garage, compatible S3, interne au VPS)
+      - S3_REGION=${S3_REGION:-garage}
       - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
       - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
-      - S3_ENDPOINT=${S3_ENDPOINT}
-      - S3_BUCKET=${S3_BUCKET}
-      - S3_FORCE_PATH_STYLE=${S3_FORCE_PATH_STYLE}
+      - S3_ENDPOINT=${S3_ENDPOINT:-http://garage:3900}
+      - S3_BUCKET=${S3_BUCKET:-nbooks}
+      - S3_FORCE_PATH_STYLE=${S3_FORCE_PATH_STYLE:-true}
 
-      # Stripe
+      # Paiements en ligne Stripe (optionnel)
       - STRIPE_PAYMENT_SECRET_KEY=${STRIPE_PAYMENT_SECRET_KEY}
       - STRIPE_PAYMENT_PUBLISHABLE_KEY=${STRIPE_PAYMENT_PUBLISHABLE_KEY}
       - STRIPE_PAYMENT_CLIENT_ID=${STRIPE_PAYMENT_CLIENT_ID}
       - STRIPE_PAYMENT_WEBHOOKS_SECRET=${STRIPE_PAYMENT_WEBHOOKS_SECRET}
       - STRIPE_PAYMENT_REDIRECT_URL=${STRIPE_PAYMENT_REDIRECT_URL}
 
-      # API rate limiting (see .env.example)
+      # Limites de requêtes (voir .env.example)
       - THROTTLE_GLOBAL_TTL=${THROTTLE_GLOBAL_TTL}
       - THROTTLE_GLOBAL_LIMIT=${THROTTLE_GLOBAL_LIMIT}
       - THROTTLE_AUTH_TTL=${THROTTLE_AUTH_TTL}
       - THROTTLE_AUTH_LIMIT=${THROTTLE_AUTH_LIMIT}
 
+  # Migrations : même image que le serveur NBooks (docker/migration/Dockerfile partait de
+  # bigcapitalhq/server:latest, donc sans les migrations québécoises : pas utilisé ici).
   database_migration:
-    container_name: bigcapital-database-migration
-    build:
-      context: ./
-      dockerfile: docker/migration/Dockerfile
+    container_name: nbooks-database-migration
+    image: nbooks-server:${NBOOKS_VERSION:-local}
+    working_dir: /app/packages/server
+    command: sh -c "node dist/cli.js system:migrate:latest && node dist/cli.js tenants:migrate:latest"
     environment:
-      # Database
       - DB_HOST=mysql
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_CHARSET=${DB_CHARSET}
-      - SYSTEM_DB_NAME=${SYSTEM_DB_NAME}
-      # Tenants databases
-      - TENANT_DB_NAME_PERFIX=${TENANT_DB_NAME_PERFIX}
-      # Cloud trial backfill (system migration)
-      - STRIPE_BILLING_SECRET_KEY=${STRIPE_BILLING_SECRET_KEY}
-      - STRIPE_BILLING_WEBHOOK_SECRET=${STRIPE_BILLING_WEBHOOK_SECRET}
-      - FREE_TRIAL_DAYS=${FREE_TRIAL_DAYS:-15}
+      - DB_CHARSET=${DB_CHARSET:-utf8mb4}
+      - SYSTEM_DB_NAME=${SYSTEM_DB_NAME:-nbooks_system}
+      - TENANT_DB_NAME_PERFIX=${TENANT_DB_NAME_PERFIX:-nbooks_tenant_}
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
-      - bigcapital_network
+      - nbooks_network
+    profiles:
+      - migrate
 
   mysql:
-    container_name: bigcapital-mysql
-    restart: on-failure
+    <<: *restart
+    container_name: nbooks-mysql
     build:
       context: ./docker/mariadb
     environment:
-      - MYSQL_DATABASE=${SYSTEM_DB_NAME}
+      - MYSQL_DATABASE=${SYSTEM_DB_NAME:-nbooks_system}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD is required in .env}
+      - TZ=America/Toronto
     volumes:
       - mysql:/var/lib/mysql
     expose:
       - '3306'
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent']
+      interval: 10s
+      timeout: 5s
+      retries: 12
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   redis:
-    container_name: bigcapital-redis
-    restart: on-failure
+    <<: *restart
+    container_name: nbooks-redis
     build:
       context: ./docker/redis
     expose:
@@ -200,80 +206,66 @@ services:
     volumes:
       - redis:/data
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   gotenberg:
+    <<: *restart
+    container_name: nbooks-gotenberg
     image: gotenberg/gotenberg:7
     expose:
-      - '9000'
+      - '3000'
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   garage:
-    container_name: bigcapital-garage
+    <<: *restart
+    container_name: nbooks-garage
     image: dxflrs/garage:v1.3.1
-    restart: on-failure
     environment:
       - GARAGE_CONFIG_FILE=/etc/garage.toml
-      - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET}
-      - GARAGE_ADMIN_TOKEN=${GARAGE_ADMIN_TOKEN}
+      - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET:?GARAGE_RPC_SECRET is required in .env - openssl rand -hex 32}
+      - GARAGE_ADMIN_TOKEN=${GARAGE_ADMIN_TOKEN:?GARAGE_ADMIN_TOKEN is required in .env}
     volumes:
-      - ./docker/garage/garage.toml:/etc/garage.toml
-      - ./docker/garage/setup.sh:/garage-setup/setup.sh
+      - ./docker/garage/garage.toml:/etc/garage.toml:ro
+      - ./docker/garage/setup.sh:/garage-setup/setup.sh:ro
       - garage:/var/lib/garage
     expose:
       - '3900'
       - '3903'
     networks:
-      - bigcapital_network
+      - nbooks_network
 
   clickhouse:
-    container_name: bigcapital-clickhouse
+    <<: *restart
+    container_name: nbooks-clickhouse
     image: clickhouse/clickhouse-server:24.8
-    restart: on-failure
+    profiles:
+      - analytics
     environment:
       - CLICKHOUSE_USER=${CLICKHOUSE_USER:-default}
-      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:?CLICKHOUSE_PASSWORD is required in .env - generate one with openssl rand -base64 32}
-      - CLICKHOUSE_DB=${CLICKHOUSE_DATABASE:-bigcapital_analytics}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:-}
+      - CLICKHOUSE_DB=${CLICKHOUSE_DATABASE:-nbooks_analytics}
     expose:
       - '8123'
     volumes:
       - clickhouse:/var/lib/clickhouse
     networks:
-      - bigcapital_network
+      - nbooks_network
 
-  # Auto-updates the containers labelled "com.centurylinklabs.watchtower.enable=true"
-  # (webapp and server) by polling the registry for newer :latest images.
-  # Everything else (mysql, redis, gotenberg, garage, clickhouse, proxy) is untouched.
-  auto-update:
-    container_name: bigcapital-auto-update
-    image: containrrr/watchtower:1.7.1
-    restart: on-failure
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    command: --label-enable --cleanup --interval ${AUTO_UPDATE_INTERVAL:-3600}
-    networks:
-      - bigcapital_network
-
-# Volumes
 volumes:
   mysql:
-    name: bigcapital_prod_mysql
-    driver: local
-
+    name: nbooks_prod_mysql
   redis:
-    name: bigcapital_prod_redis
-    driver: local
-
+    name: nbooks_prod_redis
   garage:
-    name: bigcapital_prod_garage
-    driver: local
-
+    name: nbooks_prod_garage
   clickhouse:
-    name: bigcapital_prod_clickhouse
-    driver: local
+    name: nbooks_prod_clickhouse
+  caddy_data:
+    name: nbooks_prod_caddy_data
+  caddy_config:
+    name: nbooks_prod_caddy_config
 
-# Networks
 networks:
-  bigcapital_network:
+  nbooks_network:
     driver: bridge
